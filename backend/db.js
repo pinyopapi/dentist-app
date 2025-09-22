@@ -1,16 +1,15 @@
-import { DataSource } from "typeorm";
-import User from "./models/User.js";
-import Service from "./models/Service.js";
-import Appointment from "./models/Appointment.js";
+import pkg from "pg";
+const { Pool } = pkg;
+import dotenv from "dotenv";
 
-export const AppDataSource = new DataSource({
-  type: "postgres",
+dotenv.config();
+
+const pool = new Pool({
   host: process.env.DB_HOST,
-  port: parseInt(process.env.DB_PORT),
-  username: process.env.DB_USER,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  synchronize: true,
-  logging: false,
-  entities: [User, Service, Appointment],
 });
+
+export default pool;
