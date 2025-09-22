@@ -6,7 +6,7 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 export const googleAuth = async (req, res) => {
   const { token } = req.body;
-s
+
   try {
     const ticket = await client.verifyIdToken({
       idToken: token,
