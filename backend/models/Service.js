@@ -12,3 +12,15 @@ export async function addService(name, price) {
   );
   return result.rows[0];
 }
+
+export async function updateService(id, name, price) {
+  const result = await pool.query(
+    "UPDATE services SET name=$1, price=$2 WHERE id=$3 RETURNING *",
+    [name, price, id]
+  );
+  return result.rows[0];
+}
+
+export async function deleteService(id) {
+  await pool.query("DELETE FROM services WHERE id=$1", [id]);
+}
