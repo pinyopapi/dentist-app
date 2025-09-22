@@ -1,37 +1,60 @@
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { getUserByEmail, addUser } from "../models/User.js";
 import { OAuth2Client } from "google-auth-library";
-import { AppDataSource } from "../db.js";
-import User from "../models/User.js";
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
-export const googleAuth = async (req, res) => {
-  const { token } = req.body;
-
+// Email/pwd regists
+export const register = async (req, res) => {
   try {
-    const ticket = await client.verifyIdToken({
-      idToken: token,
-      audience: process.env.GOOGLE_CLIENT_ID,
-    });
+    const { email, password, name } = req.body;
+    const existingUser = await getUserByEmail(email);
+    if (existingUser) return res.status(400).json({ message: "User exists" });
 
-    const payload = ticket.getPayload();
-    if (!payload?.email) return res.status(400).json({ message: "Invalid token" });
-
-    const userRepo = AppDataSource.getRepository(User);
-    let user = await userRepo.findOne({ where: { email: payload.email } });
-
-    if (!user) {
-      user = userRepo.create({
-        name: payload.name,
-        email: payload.email,
-        googleId: payload.sub,
-        role: "user",
-      });
-      await userRepo.save(user);
-    }
-
-    res.json({ user });
+    const hashedPassword = await bcrypt.hash(password, 10);
+    await addUser(email, name, hashedPassword);
+    res.status(201).json({ message: "User registered" });
   } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: "Authentication failed" });
+    console.error(err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// Email/pwd login
+export const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await getUserByEmail(email);
+    if (!user) return res.status(400).json({ message: "Invalid credentials" });
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
+
+    const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, { expiresIn: "1h" });
+    res.json({ token });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// Google OAuth login
+export const googleAuth = async (req, res) => {
+  try {
+    const { token } = req.body;
+    const ticket = await client.verifyIdToken({ idToken: token, audience: process.env.GOOGLE_CLIENT_ID });
+    const payload = ticket.getPayload();
+    const email = payload.email;
+    const name = payload.name;
+
+    let user = await getUserByEmail(email);
+    if (!user) user = await addUser(email, name, null);
+
+    const jwtToken = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, { expiresIn: "1h" });
+    res.json({ token: jwtToken });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Google authentication failed" });
   }
 };
