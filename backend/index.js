@@ -3,7 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 
 import authRoutes from "./routes/authRoutes.js";
-import servicesRoutes from "./routes/servicesRoutes.js";
+import serviceRoutes from "./routes/serviceRoutes.js";
 import appointmentsRoutes from "./routes/appointmentsRoutes.js";
 
 import { AppDataSource } from "./db.js";
@@ -14,7 +14,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/auth", authRoutes);
-app.use("/services", servicesRoutes);
+app.use("/services", serviceRoutes);
 app.use("/appointments", appointmentsRoutes);
 
 const PORT = process.env.PORT || 5000;
