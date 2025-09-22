@@ -1,12 +1,14 @@
-import { EntitySchema } from "typeorm";
+import pool from "../db.js";
 
-export default new EntitySchema({
-  name: "Service",
-  tableName: "services",
-  columns: {
-    id: { primary: true, type: "int", generated: true },
-    name: { type: "varchar" },
-    description: { type: "text" },
-    price: { type: "numeric" },
-  },
-});
+export async function getAllServices() {
+  const result = await pool.query("SELECT * FROM services");
+  return result.rows;
+}
+
+export async function addService(name, price) {
+  const result = await pool.query(
+    "INSERT INTO services (name, price) VALUES ($1, $2) RETURNING *",
+    [name, price]
+  );
+  return result.rows[0];
+}
