@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 
 import authRoutes from "./routes/authRoutes.js";
 import serviceRoutes from "./routes/serviceRoutes.js";
-import appointmentRoutes from "./routes/appointmentsRoutes.js";
+import appointmentRoutes from "./routes/appointmentRoutes.js";
 
 import { AppDataSource } from "./db.js";
 
