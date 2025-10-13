@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import { LanguageContext } from "../contexts/LanguageContext";
 import translations from "../i18n";
+import { GoogleLogin } from '@react-oauth/google';
 
 const LoginPage = () => {
   const { language } = useContext(LanguageContext);
@@ -46,6 +47,25 @@ const LoginPage = () => {
         <button type="submit">{getTranslation("login")}</button>
       </form>
       {message && <p>{message}</p>}
+      <GoogleLogin
+        onSuccess={async (credentialResponse) => {
+          const token = credentialResponse.credential;
+          // POST to backend
+          const res = await fetch("/auth/google", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token }),
+          });
+          const data = await res.json();
+          if (res.ok) {
+            // save JWT
+            console.log(data.token);
+          }
+        }}
+        onError={() => {
+          console.log('Google login failed');
+        }}
+      />
     </div>
   );
 };
