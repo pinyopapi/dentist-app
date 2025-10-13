@@ -8,12 +8,12 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 // Email/pwd regists
 export const register = async (req, res) => {
   try {
-    const { email, password, name } = req.body;
+    const { name, email, password } = req.body;
     const existingUser = await getUserByEmail(email);
     if (existingUser) return res.status(400).json({ message: "User exists" });
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    await addUser(email, name, hashedPassword);
+    await addUser(name, email, hashedPassword);
     res.status(201).json({ message: "User registered" });
   } catch (err) {
     console.error(err);
