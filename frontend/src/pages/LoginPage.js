@@ -21,6 +21,7 @@ const LoginPage = () => {
       const data = await res.json();
       if (res.ok) setMessage(getTranslation("successLogin"));
       else setMessage(data.message || getTranslation("error"));
+      setTimeout(() => setMessage(""), 2000);
     } catch (err) {
       setMessage(getTranslation("networkError"));
     }

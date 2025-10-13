@@ -22,6 +22,7 @@ const RegisterPage = () => {
       const data = await res.json();
       if (res.ok) setMessage(getTranslation("successRegister"));
       else setMessage(data.message || getTranslation("error"));
+      setTimeout(() => setMessage(""), 2000);
     } catch (err) {
       setMessage(getTranslation("networkError"));
     }
