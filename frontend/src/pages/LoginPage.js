@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import { LanguageContext } from "../contexts/LanguageContext";
 import translations from "../i18n";
-import { GoogleLogin } from '@react-oauth/google';
+import { GoogleLogin } from "@react-oauth/google";
 
 const LoginPage = () => {
   const { language } = useContext(LanguageContext);
@@ -11,27 +11,31 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleResponse = async (url, body) => {
     try {
-      const res = await fetch("/auth/login", {
+      const res = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify(body),
       });
       const data = await res.json();
-      if (res.ok) setMessage(getTranslation("successLogin"));
-      else setMessage(data.message || getTranslation("error"));
-      setTimeout(() => setMessage(""), 2000);
-    } catch (err) {
-      setMessage(getTranslation("networkError"));
+      setMessage(res.ok ? getTranslation("successLogin") : data.message || getTranslation("error"));
+    } catch {
+      setMessage(getTranslation("error"));
     }
+    setTimeout(() => setMessage(""), 2000);
   };
 
   return (
     <div className="login-page">
       <h1>{getTranslation("login")}</h1>
-      <form onSubmit={handleSubmit}>
+
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleResponse("/auth/login", { email, password });
+        }}
+      >
         <input
           type="email"
           placeholder={getTranslation("email")}
@@ -46,26 +50,15 @@ const LoginPage = () => {
         />
         <button type="submit">{getTranslation("login")}</button>
       </form>
+
+      <div style={{ margin: "20px 0" }}>
+        <GoogleLogin
+          onSuccess={(res) => handleResponse("/auth/google", { token: res.credential })}
+          onError={() => setMessage(getTranslation("error"))}
+        />
+      </div>
+
       {message && <p>{message}</p>}
-      <GoogleLogin
-        onSuccess={async (credentialResponse) => {
-          const token = credentialResponse.credential;
-          // POST to backend
-          const res = await fetch("/auth/google", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ token }),
-          });
-          const data = await res.json();
-          if (res.ok) {
-            // save JWT
-            console.log(data.token);
-          }
-        }}
-        onError={() => {
-          console.log('Google login failed');
-        }}
-      />
     </div>
   );
 };
