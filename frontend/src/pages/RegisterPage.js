@@ -1,9 +1,11 @@
 import { useState, useContext } from "react";
 import { LanguageContext } from "../contexts/LanguageContext";
+import { AuthContext } from "../contexts/AuthContext";
 import translations from "../i18n";
 
 const RegisterPage = () => {
   const { language } = useContext(LanguageContext);
+  const { login } = useContext(AuthContext);
   const getTranslation = (key) => translations[key][language];
 
   const [name, setName] = useState("");
@@ -20,8 +22,12 @@ const RegisterPage = () => {
         body: JSON.stringify({ name, email, password }),
       });
       const data = await res.json();
-      if (res.ok) setMessage(getTranslation("successRegister"));
-      else setMessage(data.message || getTranslation("error"));
+      if (res.ok) {
+        setMessage(getTranslation("successRegister"));
+        login({ name, email }, data.token); 
+      } else {
+        setMessage(data.message || getTranslation("error"));
+      }
       setTimeout(() => setMessage(""), 2000);
     } catch (err) {
       setMessage(getTranslation("networkError"));
@@ -32,24 +38,9 @@ const RegisterPage = () => {
     <div className="register-page">
       <h1>{getTranslation("register")}</h1>
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder={getTranslation("name")}
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <input
-          type="email"
-          placeholder={getTranslation("email")}
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder={getTranslation("password")}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <input type="text" placeholder={getTranslation("name")} value={name} onChange={(e) => setName(e.target.value)} />
+        <input type="email" placeholder={getTranslation("email")} value={email} onChange={(e) => setEmail(e.target.value)} />
+        <input type="password" placeholder={getTranslation("password")} value={password} onChange={(e) => setPassword(e.target.value)} />
         <button type="submit">{getTranslation("register")}</button>
       </form>
       {message && <p>{message}</p>}
