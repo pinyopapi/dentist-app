@@ -22,18 +22,19 @@ const LoginPage = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
+      
       const data = await res.json();
       if (res.ok) {
         const token = data.token;
+        const userData = data.user;
+        login(userData, token);
         localStorage.setItem("token", token);
-        login(token);
         setMessage(getTranslation("successLogin"));
         setTimeout(() => {
           setMessage("");
           navigate("/dashboard");
         }, 2000);
-      }
-      else {
+      } else {
         setMessage(data.message || getTranslation("error"));
         setTimeout(() => setMessage(""), 2000);
       }
