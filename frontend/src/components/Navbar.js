@@ -18,6 +18,7 @@ const Navbar = () => {
 
             {user ? (
                 <>
+                    <Link to="/appointments" style={{ marginRight: "10px" }}>Appointments</Link>
                     <span style={{ marginRight: "15px" }}>Hello, {user.name}</span>
                     <button onClick={handleLogout}>Logout</button>
                 </>
@@ -27,7 +28,7 @@ const Navbar = () => {
                     <Link to="/register">Register</Link>
                 </>
             )}
-          <LanguageSelector />
+            <LanguageSelector />
         </nav>
     );
 };
