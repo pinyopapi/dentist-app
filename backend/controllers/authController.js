@@ -29,13 +29,13 @@ export const login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
 
-    const token = jwt.sign(
-      { id: user.id, email: user.email },
+    const jwtToken = jwt.sign(
+      { email: user.email },
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
 
-    res.json({ token, user: { id: user.id, name: user.name, email: user.email } });
+    res.json({ jwtToken, user: { name: user.name, email: user.email } });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Internal server error" });
@@ -64,12 +64,12 @@ export const googleLogin = async (req, res) => {
     }
 
     const jwtToken = jwt.sign(
-      { id: user.id, email: user.email },
+      { email: user.email, name: user.name },
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
 
-    res.json({ token: jwtToken, user: { id: user.id, name: user.name, email: user.email } });
+    res.json({ jwtToken, user: { name: name, email: email } });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Google authentication failed" });
