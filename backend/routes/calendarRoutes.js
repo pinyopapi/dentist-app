@@ -1,10 +1,9 @@
 import express from "express";
-import { getGoogleAuthUrl, googleCallback, createGoogleCalendarEvent } from "../controllers/calendarController.js";
+import { getGoogleCalendarEvents, createGoogleCalendarEvent } from "../controllers/calendarController.js";
 
 const router = express.Router();
 
-router.get("/auth-url", getGoogleAuthUrl);
-router.get("/callback", googleCallback);
-router.post("/event", createGoogleCalendarEvent);
+router.get("/events", getGoogleCalendarEvents);
+router.post("/create", createGoogleCalendarEvent);
 
 export default router;
