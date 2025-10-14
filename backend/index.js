@@ -4,7 +4,6 @@ import dotenv from "dotenv";
 
 import authRoutes from "./routes/authRoutes.js";
 import serviceRoutes from "./routes/serviceRoutes.js";
-import appointmentRoutes from "./routes/appointmentRoutes.js";
 import calendarRoutes from "./routes/calendarRoutes.js";
 
 import pool from "./db.js";
@@ -16,7 +15,6 @@ app.use(express.json());
 
 app.use("/auth", authRoutes);
 app.use("/services", serviceRoutes);
-app.use("/appointments", appointmentRoutes);
 app.use("/calendar", calendarRoutes);
 
 const PORT = process.env.PORT || 5000;
