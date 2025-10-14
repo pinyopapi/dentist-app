@@ -1,54 +1,45 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
+import AppointmentsCalendar from "../components/AppointmentsCalendar";
 
 const AppointmentsPage = () => {
   const { token } = useContext(AuthContext);
-  const [appointments, setAppointments] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [selectedSlot, setSelectedSlot] = useState(null);
 
-  useEffect(() => {
-    const fetchAppointments = async () => {
-      try {
-        const res = await fetch("/appointments", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        const data = await res.json();
-        setAppointments(data);
-      } catch (err) {
-        console.error("Error fetching appointments", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchAppointments();
-  }, [token]);
-
-  if (loading) return <p>Loading appointments...</p>;
+  const handleSelectSlot = (slotInfo) => {
+    setSelectedSlot(slotInfo.start);
+    console.log("Selected appointment:", slotInfo.start);
+  };
 
   return (
     <div>
       <h1>Appointments</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>User</th>
-            <th>Service</th>
-            <th>Date</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {appointments.map((a) => (
-            <tr key={a.id}>
-              <td>{a.user_name}</td>
-              <td>{a.service_name}</td>
-              <td>{new Date(a.appointment_date).toLocaleString()}</td>
-              <td>{a.status}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <AppointmentsCalendar onSelectSlot={handleSelectSlot} />
+      
+      {selectedSlot && (
+        <div style={{ marginTop: "20px" }}>
+          <p>Selected time: {selectedSlot.toLocaleString()}</p>
+          <button
+            onClick={async () => {
+              const res = await fetch("/appointments", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                  user_id: 1,
+                  service_id: 1,
+                  appointment_date: selectedSlot,
+                }),
+              });
+              if (res.ok) alert("Appointment booked!");
+            }}
+          >
+            Book this time
+          </button>
+        </div>
+      )}
     </div>
   );
 };
