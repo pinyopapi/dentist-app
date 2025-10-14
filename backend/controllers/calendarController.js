@@ -83,3 +83,33 @@ export const createFreeSlot = async (req, res) => {
     res.status(500).json({ message: "Failed to create free slot" });
   }
 };
+
+export const bookGoogleCalendarSlot = async (req, res) => {
+  try {
+    const { eventId, bookedBy } = req.body;
+
+    const eventResponse = await calendar.events.get({
+      calendarId: process.env.GOOGLE_CALENDAR_ID,
+      eventId,
+    });
+
+    const event = eventResponse.data;
+
+    event.summary = `Booked by ${bookedBy}`;
+    event.colorId = 11;
+
+    const updated = await calendar.events.update({
+      calendarId: process.env.GOOGLE_CALENDAR_ID,
+      eventId,
+      resource: event,
+    });
+
+    res.status(200).json({
+      message: "Slot successfully booked",
+      event: updated.data,
+    });
+  } catch (error) {
+    console.error("Error booking slot:", error);
+    res.status(500).json({ message: "Failed to book slot" });
+  }
+};
