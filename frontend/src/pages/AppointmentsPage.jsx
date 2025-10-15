@@ -1,44 +1,16 @@
-import { useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
-import { useGoogleLogin } from "@react-oauth/google";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import moment from "moment";
 import { useEvents } from "../hooks/useEvents";
 import { useBooking } from "../hooks/useBooking";
+import { useGoogleAuth } from "../hooks/useGoogleAuth";
 
 const localizer = momentLocalizer(moment);
 
 const AppointmentsPage = () => {
   const { events, loading, error, refreshEvents } = useEvents();
   const { bookEvent } = useBooking(refreshEvents);
-
-  const [googleToken, setGoogleToken] = useState(null);
-  const [googleName, setGoogleName] = useState("");
-  const [loginError, setLoginError] = useState(null);
-
-  const fetchGoogleUserInfo = async (accessToken) => {
-    const res = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
-    if (!res.ok) throw new Error("Failed to fetch user info");
-    const data = await res.json();
-    return data.name || data.email;
-  };
-
-  const login = useGoogleLogin({
-    scope: "https://www.googleapis.com/auth/calendar",
-    onSuccess: async (tokenResponse) => {
-      try {
-        setGoogleToken(tokenResponse.access_token);
-        const name = await fetchGoogleUserInfo(tokenResponse.access_token);
-        setGoogleName(name);
-        setLoginError(null);
-      } catch {
-        setLoginError("Failed to get user info from Google");
-      }
-    },
-    onError: () => setLoginError("Google login failed"),
-  });
+  const { googleToken, googleName, error: loginError, login } = useGoogleAuth();
 
   const handleSelectEvent = (event) => {
     if (!event.title.toLowerCase().includes("free slot")) {
