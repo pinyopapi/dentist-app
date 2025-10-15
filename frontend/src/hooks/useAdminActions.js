@@ -1,11 +1,12 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 export const useAdminActions = (refreshEvents) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const createSlot = async (start, end) => {
-    if (!start || !end) return alert("Please select start and end time");
+    if (!start || !end) return toast.info("Please select start and end time");
 
     setLoading(true);
     setError(null);
@@ -23,7 +24,7 @@ export const useAdminActions = (refreshEvents) => {
 
       if (!res.ok) throw new Error("Failed to create slot");
 
-      alert("Free slot created!");
+      toast.success("Free slot created!");
       refreshEvents();
     } catch (err) {
       console.error("Error creating slot:", err);
@@ -48,10 +49,10 @@ export const useAdminActions = (refreshEvents) => {
 
       if (!res.ok) throw new Error("Delete failed");
 
-      alert("Event deleted");
+      toast.error("Event deleted");
       refreshEvents();
     } catch (err) {
-      console.error("Error deleting event:", err);
+      toast.error("Error deleting event:", err);
       setError("Failed to delete event");
     } finally {
       setLoading(false);

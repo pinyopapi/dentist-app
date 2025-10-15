@@ -2,6 +2,7 @@ import { useEvents } from "../hooks/useEvents";
 import { useBooking } from "../hooks/useBooking";
 import { useGoogleAuth } from "../hooks/useGoogleAuth";
 import { AppointmentCalendar } from "../components/AppointmentCalendar";
+import { toast } from "react-toastify";
 
 const AppointmentsPage = () => {
   const { events, loading, error, refreshEvents } = useEvents();
@@ -10,11 +11,11 @@ const AppointmentsPage = () => {
 
   const handleSelectEvent = (event) => {
     if (!event.title.toLowerCase().includes("free slot")) {
-      alert("This slot is already booked!");
+      toast.error("This slot is already booked!");
       return;
     }
     if (!googleToken) {
-      alert("Please log in with Google first to book a slot.");
+      toast.warning("Please log in with Google first to book a slot.");
       return;
     }
 
