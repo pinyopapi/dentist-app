@@ -7,6 +7,7 @@ import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/Navbar";
 import AppointmentsPage from "./pages/AppointmentsPage";
+import AdminPage from "./pages/AdminPage";
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/dashboard" element={<ProtectedRoute> <Dashboard /> </ProtectedRoute>} />
             <Route path="/appointments" element={<ProtectedRoute> <AppointmentsPage /> </ProtectedRoute>} />
+            <Route path="/admin" element={<ProtectedRoute> <AdminPage /> </ProtectedRoute>} />
           </Routes>
         </Router>
       </LanguageProvider>
