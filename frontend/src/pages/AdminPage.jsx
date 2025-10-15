@@ -1,59 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useEvents } from "../hooks/useEvents";
+import { useAdminActions } from "../hooks/useAdminActions";
 
 const localizer = momentLocalizer(moment);
 
 const AdminPage = () => {
   const { events, loading, error, refreshEvents } = useEvents();
+  const { createSlot, deleteEvent } = useAdminActions(refreshEvents);
+
   const [start, setStart] = useState("");
   const [end, setEnd] = useState("");
 
-  const handleCreateSlot = async (e) => {
+  const handleCreateSlot = (e) => {
     e.preventDefault();
-    if (!start || !end) return alert("Please select start and end time");
-
-    try {
-      const res = await fetch("/calendar/create", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          summary: "Free Slot",
-          start: new Date(start).toISOString(),
-          end: new Date(end).toISOString(),
-        }),
-      });
-
-      if (!res.ok) throw new Error("Failed to create slot");
-
-      alert("Free slot created!");
-      setStart("");
-      setEnd("");
-      refreshEvents();
-    } catch (err) {
-      console.error("Error creating slot:", err);
-    }
-  };
-
-  const handleDelete = async (eventId) => {
-    if (!window.confirm("Are you sure you want to delete this event?")) return;
-
-    try {
-      const res = await fetch("/calendar/delete", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ eventId }),
-      });
-
-      if (!res.ok) throw new Error("Delete failed");
-
-      alert("Event deleted");
-      refreshEvents();
-    } catch (err) {
-      console.error("Error deleting event:", err);
-    }
+    createSlot(start, end);
+    setStart("");
+    setEnd("");
   };
 
   const handleSelectEvent = (event) => {
@@ -62,7 +27,7 @@ const AdminPage = () => {
       : "This is a free slot.";
 
     if (window.confirm(`${msg}\n\nDelete this event?`)) {
-      handleDelete(event.id);
+      deleteEvent(event.id);
     }
   };
 
