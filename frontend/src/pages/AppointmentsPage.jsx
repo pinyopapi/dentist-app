@@ -1,14 +1,17 @@
-import { Calendar, momentLocalizer } from "react-big-calendar";
-import moment from "moment";
-import "react-big-calendar/lib/css/react-big-calendar.css";
-import { useGoogleLogin } from "@react-oauth/google";
-import { useEvents } from "../hooks/useEvents";
 import { useState } from "react";
+import { Calendar, momentLocalizer } from "react-big-calendar";
+import { useGoogleLogin } from "@react-oauth/google";
+import "react-big-calendar/lib/css/react-big-calendar.css";
+import moment from "moment";
+import { useEvents } from "../hooks/useEvents";
+import { useBooking } from "../hooks/useBooking";
 
 const localizer = momentLocalizer(moment);
 
 const AppointmentsPage = () => {
   const { events, loading, error, refreshEvents } = useEvents();
+  const { bookEvent } = useBooking(refreshEvents);
+
   const [googleToken, setGoogleToken] = useState(null);
   const [googleName, setGoogleName] = useState("");
   const [loginError, setLoginError] = useState(null);
@@ -37,7 +40,7 @@ const AppointmentsPage = () => {
     onError: () => setLoginError("Google login failed"),
   });
 
-  const handleSelectEvent = async (event) => {
+  const handleSelectEvent = (event) => {
     if (!event.title.toLowerCase().includes("free slot")) {
       alert("This slot is already booked!");
       return;
@@ -46,26 +49,13 @@ const AppointmentsPage = () => {
       alert("Please log in with Google first to book a slot.");
       return;
     }
-    if (!window.confirm(`Book this slot: ${event.start.toLocaleString()}?`)) return;
 
-    try {
-      const res = await fetch("/calendar/book", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          eventId: event.id,
-          bookedBy: googleName,
-          userToken: googleToken,
-        }),
-      });
-      if (!res.ok) throw new Error("Booking failed");
-
-      alert("Slot successfully booked!");
-      refreshEvents();
-    } catch (err) {
-      console.error("Error booking slot", err);
-      alert("Could not book this slot");
-    }
+    bookEvent({
+      eventId: event.id,
+      bookedBy: googleName,
+      userToken: googleToken,
+      eventStart: event.start,
+    });
   };
 
   if (loading) return <p>Loading calendar...</p>;
