@@ -1,16 +1,11 @@
-import { useState, useEffect } from "react";
-import { Calendar, momentLocalizer } from "react-big-calendar";
-import moment from "moment";
-import "react-big-calendar/lib/css/react-big-calendar.css";
+import { useState } from "react";
 import { useEvents } from "../hooks/useEvents";
 import { useAdminActions } from "../hooks/useAdminActions";
-
-const localizer = momentLocalizer(moment);
+import { AppointmentCalendar } from "../components/AppointmentCalendar";
 
 const AdminPage = () => {
   const { events, loading, error, refreshEvents } = useEvents();
   const { createSlot, deleteEvent } = useAdminActions(refreshEvents);
-
   const [start, setStart] = useState("");
   const [end, setEnd] = useState("");
 
@@ -60,20 +55,7 @@ const AdminPage = () => {
         </button>
       </form>
 
-      <Calendar
-        localizer={localizer}
-        events={events}
-        startAccessor="start"
-        endAccessor="end"
-        style={{ height: 600 }}
-        eventPropGetter={(event) => ({
-          style: {
-            backgroundColor: event.bookedBy ? "red" : "green",
-            color: "white",
-          },
-        })}
-        onSelectEvent={handleSelectEvent}
-      />
+      <AppointmentCalendar events={events} onSelectEvent={handleSelectEvent} />
     </div>
   );
 };
