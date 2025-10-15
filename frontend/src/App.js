@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { AuthProvider } from "./contexts/AuthContext";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import RegisterPage from "./pages/RegisterPage";
@@ -25,6 +27,7 @@ function App() {
               <Route path="/admin" element={<ProtectedRoute> <AdminPage /> </ProtectedRoute>} />
             </Routes>
           </Router>
+          <ToastContainer position="top-right" autoClose={3000} />
         </LanguageProvider>
       </AuthProvider>
     </GoogleOAuthProvider>
