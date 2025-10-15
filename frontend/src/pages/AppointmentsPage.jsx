@@ -11,6 +11,7 @@ const AppointmentsPage = () => {
   const [loading, setLoading] = useState(true);
   const [googleToken, setGoogleToken] = useState(null);
   const [googleName, setGoogleName] = useState("");
+  const [error, setError] = useState(null);
 
   const formatEvents = (data) => {
     return data.map((e) => ({
@@ -22,16 +23,21 @@ const AppointmentsPage = () => {
   };
 
   const fetchEvents = async () => {
+    setLoading(true);
+    setError(null);
     try {
       const res = await fetch("/calendar/events");
+      if (!res.ok) throw new Error("Failed to fetch events");
       const data = await res.json();
       setEvents(formatEvents(data));
     } catch (err) {
       console.error("Error fetching calendar events", err);
+      setError("Could not load calendar events");
     } finally {
       setLoading(false);
     }
   };
+
 
   const handleGoogleLoginSuccess = async (tokenResponse) => {
     const token = tokenResponse.access_token;
@@ -103,6 +109,7 @@ const AppointmentsPage = () => {
   }, []);
 
   if (loading) return <p>Loading calendar...</p>;
+  if (error) return <p style={{ color: "red" }}>{error}</p>;
 
   return (
     <div>
