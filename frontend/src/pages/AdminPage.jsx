@@ -18,9 +18,10 @@ const AdminPage = () => {
 
       const formatted = data.map((e) => ({
         id: e.id,
-        title: e.summary,
+        title: e.bookedBy ? `Booked by ${e.bookedBy}` : e.summary,
         start: new Date(e.start),
         end: new Date(e.end),
+        bookedBy: e.bookedBy,
       }));
 
       setEvents(formatted);
@@ -75,14 +76,9 @@ const AdminPage = () => {
   };
 
   const handleSelectEvent = (event) => {
-    const bookedBy = event.title.toLowerCase().includes("booked by")
-      ? event.title
-      : "Free slot";
-
-    const msg =
-      bookedBy === "Free slot"
-        ? "This is a free slot."
-        : `ℹ️ ${bookedBy}`;
+    const msg = event.bookedBy
+      ? `ℹ️ Booked by: ${event.bookedBy}`
+      : "This is a free slot.";
 
     if (window.confirm(`${msg}\n\nDelete this event?`)) {
       handleDelete(event.id);
@@ -125,9 +121,7 @@ const AdminPage = () => {
         style={{ height: 600 }}
         eventPropGetter={(event) => ({
           style: {
-            backgroundColor: event.title.toLowerCase().includes("free")
-              ? "green"
-              : "red",
+            backgroundColor: event.bookedBy ? "red" : "green",
             color: "white",
           },
         })}
