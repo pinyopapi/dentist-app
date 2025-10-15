@@ -36,7 +36,7 @@ const AppointmentsPage = () => {
       {!googleToken && (
         <button onClick={() => login()}>Login with Google to book slots</button>
       )}
-      <AppointmentCalendar events={events} onSelectEvent={handleSelectEvent} />
+      <AppointmentCalendar events={events} onSelectEvent={handleSelectEvent} showBookedBy={false} />
     </div>
   );
 };

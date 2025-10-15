@@ -55,7 +55,7 @@ const AdminPage = () => {
         </button>
       </form>
 
-      <AppointmentCalendar events={events} onSelectEvent={handleSelectEvent} />
+      <AppointmentCalendar events={events} onSelectEvent={handleSelectEvent} showBookedBy={true}/>
     </div>
   );
 };

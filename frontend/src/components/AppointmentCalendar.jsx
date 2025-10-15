@@ -4,11 +4,26 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 
 const localizer = momentLocalizer(moment);
 
-export const AppointmentCalendar = ({ events, onSelectEvent }) => {
+export const AppointmentCalendar = ({ events, onSelectEvent, showBookedBy }) => {
+
+  console.log(events);
+
+  const formattedEvents = events.map(e => ({
+    ...e,
+    title: showBookedBy
+      ? e.bookedBy
+        ? `Booked by ${e.bookedBy}`
+        : e.summary
+      : e.summary === "Free Slot"
+        ? e.summary
+        : "Booked",
+  }));
+
+
   return (
     <Calendar
       localizer={localizer}
-      events={events}
+      events={formattedEvents}
       startAccessor="start"
       endAccessor="end"
       style={{ height: 600 }}
