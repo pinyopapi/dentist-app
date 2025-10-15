@@ -6,11 +6,10 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 const localizer = momentLocalizer(moment);
 
 const AdminPage = () => {
-  const [summary, setSummary] = useState("Free Slot");
-  const [start, setStart] = useState("");
-  const [end, setEnd] = useState("");
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [start, setStart] = useState("");
+  const [end, setEnd] = useState("");
 
   const fetchEvents = async () => {
     try {
@@ -38,27 +37,55 @@ const AdminPage = () => {
 
   const handleCreateSlot = async (e) => {
     e.preventDefault();
-    if (!start || !end) {
-      alert("Please select start and end time");
-      return;
-    }
+    if (!start || !end) return alert("Please select start and end time");
 
     try {
       const res = await fetch("/calendar/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ summary, start, end }),
+        body: JSON.stringify({ summary: "Free Slot", start, end }),
       });
-
       if (!res.ok) throw new Error("Failed to create slot");
-
       alert("Free slot created!");
       setStart("");
       setEnd("");
       fetchEvents();
     } catch (err) {
       console.error("Error creating slot:", err);
-      alert("Could not create free slot");
+    }
+  };
+
+  const handleDelete = async (eventId) => {
+    if (!window.confirm("Are you sure you want to delete this event?")) return;
+
+    try {
+      const res = await fetch("/calendar/delete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ eventId }),
+      });
+
+      if (!res.ok) throw new Error("Delete failed");
+
+      alert("Event deleted");
+      fetchEvents();
+    } catch (err) {
+      console.error("Error deleting event:", err);
+    }
+  };
+
+  const handleSelectEvent = (event) => {
+    const bookedBy = event.title.toLowerCase().includes("booked by")
+      ? event.title
+      : "Free slot";
+
+    const msg =
+      bookedBy === "Free slot"
+        ? "This is a free slot."
+        : `ℹ️ ${bookedBy}`;
+
+    if (window.confirm(`${msg}\n\nDelete this event?`)) {
+      handleDelete(event.id);
     }
   };
 
@@ -104,6 +131,7 @@ const AdminPage = () => {
             color: "white",
           },
         })}
+        onSelectEvent={handleSelectEvent}
       />
     </div>
   );
