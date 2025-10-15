@@ -45,9 +45,8 @@ export const createGoogleCalendarEvent = async (req, res) => {
 
     const event = {
       summary,
-      start: { dateTime: new Date(start).toISOString() },
-      end: { dateTime: new Date(end).toISOString() },
-      extendedProperties: { private: { bookedBy: null } },
+      start: { dateTime: start, timeZone: "Europe/Budapest" },
+      end: { dateTime: end, timeZone: "Europe/Budapest" },
     };
 
     const response = await calendar.events.insert({
@@ -95,8 +94,8 @@ export const bookGoogleCalendarSlot = async (req, res) => {
         calendarId: "primary",
         requestBody: {
           summary: "Appointment with Dentist",
-          start: { dateTime: new Date(event.start.dateTime || event.start.date).toISOString(), timeZone: "Europe/Budapest" },
-          end: { dateTime: new Date(event.end.dateTime || event.end.date).toISOString(), timeZone: "Europe/Budapest" },
+          start: event.start,
+          end: event.end,
           description: "Booked through dentist app",
         },
       });
@@ -118,12 +117,13 @@ export const bookUserCalendarEvent = async (req, res) => {
 
     const auth = new google.auth.OAuth2();
     auth.setCredentials({ access_token: accessToken });
+
     const calendarAPI = google.calendar({ version: "v3", auth });
 
     const event = {
       summary,
-      start: { dateTime: new Date(start).toISOString(), timeZone: "Europe/Budapest" },
-      end: { dateTime: new Date(end).toISOString(), timeZone: "Europe/Budapest" },
+      start: { dateTime: start, timeZone: "Europe/Budapest" },
+      end: { dateTime: end, timeZone: "Europe/Budapest" },
     };
 
     const response = await calendarAPI.events.insert({
