@@ -12,18 +12,20 @@ const AppointmentsPage = () => {
   const [googleToken, setGoogleToken] = useState(null);
   const [googleName, setGoogleName] = useState("");
 
+  const formatEvents = (data) => {
+    return data.map((e) => ({
+      id: e.id,
+      title: e.summary,
+      start: new Date(e.start),
+      end: new Date(e.end),
+    }));
+  };
+
   const fetchEvents = async () => {
     try {
       const res = await fetch("/calendar/events");
       const data = await res.json();
-      setEvents(
-        data.map((e) => ({
-          id: e.id,
-          title: e.summary,
-          start: new Date(e.start),
-          end: new Date(e.end),
-        }))
-      );
+      setEvents(formatEvents(data));
     } catch (err) {
       console.error("Error fetching calendar events", err);
     } finally {
