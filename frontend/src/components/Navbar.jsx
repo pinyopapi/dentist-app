@@ -19,6 +19,7 @@ const Navbar = () => {
             {user ? (
                 <>
                     <Link to="/appointments" style={{ marginRight: "10px" }}>Appointments</Link>
+                    <Link to="/admin" style={{ marginRight: "10px" }}>Admin</Link>
                     <span style={{ marginRight: "15px" }}>Hello, {user.name}</span>
                     <button onClick={handleLogout}>Logout</button>
                 </>
