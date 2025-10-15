@@ -50,33 +50,75 @@ const AppointmentsPage = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           eventId: event.id,
-          bookedBy: "Client", 
+          bookedBy: "Client",
         }),
       });
 
       if (!res.ok) throw new Error("Booking failed");
       alert("Slot successfully booked!");
-      fetchEvents(); 
+      fetchEvents();
     } catch (err) {
       console.error("Error booking slot", err);
       alert("Could not book this slot");
     }
   };
 
+  const eventStyleGetter = (event) => {
+    const isFree = event.title.toLowerCase().includes("free slot");
+    const backgroundColor = isFree ? "#34d399" : "#f87171";
+    return {
+      style: {
+        backgroundColor,
+        borderRadius: "6px",
+        color: "white",
+        border: "none",
+        padding: "4px",
+      },
+    };
+  };
+
   if (loading) return <p>Loading calendar...</p>;
 
   return (
-    <div>
+    <div style={{ padding: 20 }}>
       <h1>Appointments</h1>
       <Calendar
         localizer={localizer}
         events={events}
         startAccessor="start"
         endAccessor="end"
-        style={{ height: 600 }}
-        selectable
+        style={{ height: 600, marginTop: 20 }}
         onSelectEvent={handleSelectEvent}
+        eventPropGetter={eventStyleGetter}
       />
+
+      <div style={{ marginTop: 20 }}>
+        <h3>Legend:</h3>
+        <div>
+          <span
+            style={{
+              display: "inline-block",
+              width: 20,
+              height: 20,
+              backgroundColor: "#34d399",
+              marginRight: 8,
+            }}
+          ></span>
+          Free Slot
+        </div>
+        <div>
+          <span
+            style={{
+              display: "inline-block",
+              width: 20,
+              height: 20,
+              backgroundColor: "#f87171",
+              marginRight: 8,
+            }}
+          ></span>
+          Booked Slot
+        </div>
+      </div>
     </div>
   );
 };
