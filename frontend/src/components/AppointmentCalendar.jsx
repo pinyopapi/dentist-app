@@ -10,12 +10,10 @@ export const AppointmentCalendar = ({ events, onSelectEvent, showBookedBy }) => 
 
   const formattedEvents = events.map(e => ({
     ...e,
-    title: showBookedBy
-      ? e.bookedBy
-        ? `Booked by ${e.bookedBy}`
-        : e.summary
-      : e.summary === "Free Slot"
-        ? e.summary
+    title: showBookedBy && e.bookedBy
+      ? `Booked by ${e.bookedBy}`
+      : e.title === "Free Slot"
+        ? e.title
         : "Booked",
   }));
 
