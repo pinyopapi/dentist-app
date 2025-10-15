@@ -24,21 +24,20 @@ export const getGoogleCalendarEvents = async (req, res) => {
       orderBy: "startTime",
     });
 
-    const freeSlots = events.data.items
-      .filter(event => event.summary?.toLowerCase() === "free slot")
-      .map(event => ({
-        id: event.id,
-        summary: event.summary,
-        start: event.start.dateTime || event.start.date,
-        end: event.end.dateTime || event.end.date,
-      }));
+    const formattedEvents = events.data.items.map(event => ({
+      id: event.id,
+      summary: event.summary || "Free Slot",
+      start: event.start.dateTime || event.start.date,
+      end: event.end.dateTime || event.end.date,
+    }));
 
-    res.json(freeSlots);
+    res.json(formattedEvents);
   } catch (error) {
     console.error("Error fetching Google Calendar events:", error);
     res.status(500).json({ message: "Failed to fetch events" });
   }
 };
+
 
 export const createGoogleCalendarEvent = async (req, res) => {
   try {
