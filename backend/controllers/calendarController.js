@@ -29,6 +29,7 @@ export const getGoogleCalendarEvents = async (req, res) => {
       summary: event.summary || "Free Slot",
       start: event.start.dateTime || event.start.date,
       end: event.end.dateTime || event.end.date,
+      bookedBy: event.extendedProperties?.private?.bookedBy || null,
     }));
 
     res.json(formattedEvents);
@@ -38,7 +39,6 @@ export const getGoogleCalendarEvents = async (req, res) => {
   }
 };
 
-
 export const createGoogleCalendarEvent = async (req, res) => {
   try {
     const { summary, start, end } = req.body;
@@ -47,8 +47,8 @@ export const createGoogleCalendarEvent = async (req, res) => {
       summary,
       start: { dateTime: new Date(start).toISOString() },
       end: { dateTime: new Date(end).toISOString() },
+      extendedProperties: { private: { bookedBy: null } },
     };
-
 
     const response = await calendar.events.insert({
       calendarId: process.env.GOOGLE_CALENDAR_ID,
@@ -64,23 +64,43 @@ export const createGoogleCalendarEvent = async (req, res) => {
 
 export const bookGoogleCalendarSlot = async (req, res) => {
   try {
-    const { eventId, bookedBy } = req.body;
+    const { eventId, bookedBy, userToken } = req.body;
 
     const eventResponse = await calendar.events.get({
       calendarId: process.env.GOOGLE_CALENDAR_ID,
       eventId,
     });
-
     const event = eventResponse.data;
 
-    event.summary = `Booked by ${bookedBy}`;
+    if (event.extendedProperties?.private?.bookedBy) {
+      return res.status(400).json({ message: "Slot already booked" });
+    }
+
+    event.summary = `Booked`;
     event.colorId = 11;
+    event.extendedProperties = { private: { bookedBy } };
 
     const updated = await calendar.events.update({
       calendarId: process.env.GOOGLE_CALENDAR_ID,
       eventId,
       resource: event,
     });
+
+    if (userToken) {
+      const userAuth = new google.auth.OAuth2(process.env.GOOGLE_CLIENT_ID);
+      userAuth.setCredentials({ access_token: userToken });
+
+      const userCalendar = google.calendar({ version: "v3", auth: userAuth });
+      await userCalendar.events.insert({
+        calendarId: "primary",
+        requestBody: {
+          summary: "Appointment with Dentist",
+          start: event.start,
+          end: event.end,
+          description: "Booked through dentist app",
+        },
+      });
+    }
 
     res.status(200).json({
       message: "Slot successfully booked",
