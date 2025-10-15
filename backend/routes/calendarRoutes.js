@@ -6,7 +6,7 @@ const router = express.Router();
 router.get("/events", getGoogleCalendarEvents);
 router.post("/create", createGoogleCalendarEvent);
 router.post("/book", bookGoogleCalendarSlot);
-router.post("delete", deleteGoogleCalendarEvent);
+router.post("/delete", deleteGoogleCalendarEvent);
 router.post("/book-user-calendar", bookUserCalendarEvent);
 
 export default router;
