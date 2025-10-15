@@ -95,8 +95,8 @@ export const bookGoogleCalendarSlot = async (req, res) => {
         calendarId: "primary",
         requestBody: {
           summary: "Appointment with Dentist",
-          start: event.start,
-          end: event.end,
+          start: { dateTime: new Date(event.start.dateTime || event.start.date).toISOString(), timeZone: "Europe/Budapest" },
+          end: { dateTime: new Date(event.end.dateTime || event.end.date).toISOString(), timeZone: "Europe/Budapest" },
           description: "Booked through dentist app",
         },
       });
@@ -122,8 +122,8 @@ export const bookUserCalendarEvent = async (req, res) => {
 
     const event = {
       summary,
-      start: { dateTime: start, timeZone: "Europe/Budapest" },
-      end: { dateTime: end, timeZone: "Europe/Budapest" },
+      start: { dateTime: new Date(start).toISOString(), timeZone: "Europe/Budapest" },
+      end: { dateTime: new Date(end).toISOString(), timeZone: "Europe/Budapest" },
     };
 
     const response = await calendarAPI.events.insert({
@@ -137,7 +137,6 @@ export const bookUserCalendarEvent = async (req, res) => {
     res.status(500).json({ message: "Failed to add event to user calendar" });
   }
 };
-
 
 export const deleteGoogleCalendarEvent = async (req, res) => {
   try {
