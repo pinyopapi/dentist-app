@@ -14,11 +14,13 @@ export const useEvents = () => {
       setEvents(
         data.map((e) => ({
           id: e.id,
-          title: e.summary,
+          title: e.bookedBy ? `Booked by ${e.bookedBy}` : e.summary,
           start: new Date(e.start),
           end: new Date(e.end),
+          bookedBy: e.bookedBy || null,
         }))
       );
+
       setError(null);
     } catch (err) {
       console.error("Error fetching events:", err);
