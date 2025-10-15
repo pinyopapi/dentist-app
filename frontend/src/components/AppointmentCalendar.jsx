@@ -12,7 +12,12 @@ export const AppointmentCalendar = ({ events, onSelectEvent }) => {
       startAccessor="start"
       endAccessor="end"
       style={{ height: 600 }}
-      selectable
+      eventPropGetter={(event) => ({
+        style: {
+          backgroundColor: event.bookedBy ? "red" : "green",
+          color: "white",
+        },
+      })}
       onSelectEvent={onSelectEvent}
     />
   );
