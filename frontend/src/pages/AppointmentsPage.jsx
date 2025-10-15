@@ -1,11 +1,7 @@
-import { Calendar, momentLocalizer } from "react-big-calendar";
-import "react-big-calendar/lib/css/react-big-calendar.css";
-import moment from "moment";
 import { useEvents } from "../hooks/useEvents";
 import { useBooking } from "../hooks/useBooking";
 import { useGoogleAuth } from "../hooks/useGoogleAuth";
-
-const localizer = momentLocalizer(moment);
+import { AppointmentCalendar } from "../components/AppointmentCalendar";
 
 const AppointmentsPage = () => {
   const { events, loading, error, refreshEvents } = useEvents();
@@ -40,15 +36,7 @@ const AppointmentsPage = () => {
       {!googleToken && (
         <button onClick={() => login()}>Login with Google to book slots</button>
       )}
-      <Calendar
-        localizer={localizer}
-        events={events}
-        startAccessor="start"
-        endAccessor="end"
-        style={{ height: 600 }}
-        selectable
-        onSelectEvent={handleSelectEvent}
-      />
+      <AppointmentCalendar events={events} onSelectEvent={handleSelectEvent} />
     </div>
   );
 };
