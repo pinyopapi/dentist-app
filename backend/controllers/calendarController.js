@@ -46,9 +46,10 @@ export const createGoogleCalendarEvent = async (req, res) => {
 
     const event = {
       summary,
-      start: { dateTime: start, timeZone: "Europe/Budapest" },
-      end: { dateTime: end, timeZone: "Europe/Budapest" },
+      start: { dateTime: new Date(start).toISOString() },
+      end: { dateTime: new Date(end).toISOString() },
     };
+
 
     const response = await calendar.events.insert({
       calendarId: process.env.GOOGLE_CALENDAR_ID,
@@ -59,28 +60,6 @@ export const createGoogleCalendarEvent = async (req, res) => {
   } catch (error) {
     console.error("Error creating Google Calendar event:", error);
     res.status(500).json({ message: "Failed to create event" });
-  }
-};
-
-export const createFreeSlot = async (req, res) => {
-  try {
-    const { start, end } = req.body;
-
-    const event = {
-      summary: "Free slot",
-      start: { dateTime: start, timeZone: "Europe/Budapest" },
-      end: { dateTime: end, timeZone: "Europe/Budapest" },
-    };
-
-    const response = await calendar.events.insert({
-      calendarId: process.env.GOOGLE_CALENDAR_ID,
-      resource: event,
-    });
-
-    res.status(201).json({ message: "Free slot created", event: response.data });
-  } catch (error) {
-    console.error("Error creating free slot:", error);
-    res.status(500).json({ message: "Failed to create free slot" });
   }
 };
 
