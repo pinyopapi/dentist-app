@@ -92,6 +92,33 @@ export const bookGoogleCalendarSlot = async (req, res) => {
   }
 };
 
+export const bookUserCalendarEvent = async (req, res) => {
+  try {
+    const { accessToken, summary, start, end } = req.body;
+
+    const auth = new google.auth.OAuth2();
+    auth.setCredentials({ access_token: accessToken });
+    const calendarAPI = google.calendar({ version: "v3", auth });
+
+    const event = {
+      summary,
+      start: { dateTime: start, timeZone: "Europe/Budapest" },
+      end: { dateTime: end, timeZone: "Europe/Budapest" },
+    };
+
+    const response = await calendarAPI.events.insert({
+      calendarId: "primary",
+      requestBody: event,
+    });
+
+    res.status(201).json(response.data);
+  } catch (err) {
+    console.error("Error booking user calendar event:", err);
+    res.status(500).json({ message: "Failed to add event to user calendar" });
+  }
+};
+
+
 export const deleteGoogleCalendarEvent = async (req, res) => {
   try {
     const { eventId } = req.body;
