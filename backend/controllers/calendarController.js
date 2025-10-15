@@ -91,3 +91,19 @@ export const bookGoogleCalendarSlot = async (req, res) => {
     res.status(500).json({ message: "Failed to book slot" });
   }
 };
+
+export const deleteGoogleCalendarEvent = async (req, res) => {
+  try {
+    const { eventId } = req.body;
+
+    await calendar.events.delete({
+      calendarId: process.env.GOOGLE_CALENDAR_ID,
+      eventId,
+    });
+
+    res.status(200).json({ message: "Event deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting event:", error);
+    res.status(500).json({ message: "Failed to delete event" });
+  }
+};
