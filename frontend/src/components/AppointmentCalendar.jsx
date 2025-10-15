@@ -6,8 +6,6 @@ const localizer = momentLocalizer(moment);
 
 export const AppointmentCalendar = ({ events, onSelectEvent, showBookedBy }) => {
 
-  console.log(events);
-
   const formattedEvents = events.map(e => ({
     ...e,
     title: showBookedBy && e.bookedBy
