@@ -33,39 +33,44 @@ const AppointmentsPage = () => {
     }
   };
 
-  useEffect(() => {
-    fetchEvents();
-  }, []);
+  const handleGoogleLoginSuccess = async (tokenResponse) => {
+    const token = tokenResponse.access_token;
+    setGoogleToken(token);
+
+    try {
+      const res = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const userInfo = await res.json();
+      setGoogleName(userInfo.name || userInfo.email);
+    } catch (err) {
+      console.error("Failed to fetch Google user info", err);
+    }
+  };
 
   const login = useGoogleLogin({
     scope: "https://www.googleapis.com/auth/calendar",
-    onSuccess: async (tokenResponse) => {
-      setGoogleToken(tokenResponse.access_token);
-
-      const userInfo = await fetch(
-        "https://www.googleapis.com/oauth2/v3/userinfo",
-        { headers: { Authorization: `Bearer ${tokenResponse.access_token}` } }
-      ).then((res) => res.json());
-
-      setGoogleName(userInfo.name || userInfo.email);
-    },
+    onSuccess: handleGoogleLoginSuccess,
     onError: () => alert("Google login failed"),
   });
 
-  const handleSelectEvent = async (event) => {
+  const validateBooking = (event) => {
     if (!event.title.toLowerCase().includes("free slot")) {
       alert("This slot is already booked!");
-      return;
+      return false;
     }
-
     if (!googleToken) {
       alert("Please log in with Google first to book a slot.");
-      return;
+      return false;
     }
+    return true;
+  };
 
-    if (!window.confirm(`Book this slot: ${event.start.toLocaleString()}?`))
-      return;
+  const confirmBooking = (event) => {
+    return window.confirm(`Book this slot: ${event.start.toLocaleString()}?`);
+  };
 
+  const bookSlot = async (event) => {
     try {
       const res = await fetch("/calendar/book", {
         method: "POST",
@@ -86,6 +91,16 @@ const AppointmentsPage = () => {
       alert("Could not book this slot");
     }
   };
+
+  const handleSelectEvent = async (event) => {
+    if (!validateBooking(event)) return;
+    if (!confirmBooking(event)) return;
+    await bookSlot(event);
+  };
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
 
   if (loading) return <p>Loading calendar...</p>;
 
