@@ -13,17 +13,22 @@ const AppointmentsPage = () => {
   const [googleName, setGoogleName] = useState("");
 
   const fetchEvents = async () => {
-    const res = await fetch("/calendar/events");
-    const data = await res.json();
-    setEvents(
-      data.map((e) => ({
-        id: e.id,
-        title: e.summary,
-        start: new Date(e.start),
-        end: new Date(e.end),
-      }))
-    );
-    setLoading(false);
+    try {
+      const res = await fetch("/calendar/events");
+      const data = await res.json();
+      setEvents(
+        data.map((e) => ({
+          id: e.id,
+          title: e.summary,
+          start: new Date(e.start),
+          end: new Date(e.end),
+        }))
+      );
+    } catch (err) {
+      console.error("Error fetching calendar events", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -37,9 +42,7 @@ const AppointmentsPage = () => {
 
       const userInfo = await fetch(
         "https://www.googleapis.com/oauth2/v3/userinfo",
-        {
-          headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
-        }
+        { headers: { Authorization: `Bearer ${tokenResponse.access_token}` } }
       ).then((res) => res.json());
 
       setGoogleName(userInfo.name || userInfo.email);
@@ -61,23 +64,25 @@ const AppointmentsPage = () => {
     if (!window.confirm(`Book this slot: ${event.start.toLocaleString()}?`))
       return;
 
-    const res = await fetch("/calendar/book", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        eventId: event.id,
-        bookedBy: googleName,
-        userToken: googleToken,
-      }),
-    });
+    try {
+      const res = await fetch("/calendar/book", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          eventId: event.id,
+          bookedBy: googleName,
+          userToken: googleToken,
+        }),
+      });
 
-    if (!res.ok) {
-      alert("Booking failed");
-      return;
+      if (!res.ok) throw new Error("Booking failed");
+
+      alert("Slot successfully booked!");
+      fetchEvents();
+    } catch (err) {
+      console.error("Error booking slot", err);
+      alert("Could not book this slot");
     }
-
-    alert("Slot successfully booked!");
-    fetchEvents();
   };
 
   if (loading) return <p>Loading calendar...</p>;
