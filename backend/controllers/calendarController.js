@@ -4,7 +4,7 @@ import {
   updateDentistEvent,
   deleteDentistEvent,
   createUserEvent,
-} from "../services/googleCalendarService.js";
+} from "../utils/googleCalendarService.js";
 
 export const getGoogleCalendarEvents = async (req, res) => {
   try {
