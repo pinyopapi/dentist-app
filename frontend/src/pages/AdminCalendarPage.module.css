@@ -51,3 +51,24 @@
 .submitButton:hover {
   background-color: #2980b9;
 }
+
+@media (max-width: 768px) {
+  .formContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .formContainer label {
+    width: 100%;
+  }
+
+  .formContainer button {
+    width: 100%;
+  }
+
+  .calendarWrapper {
+    height: 70vh;
+    min-height: 400px;
+  }
+}

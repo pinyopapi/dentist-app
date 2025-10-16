@@ -16,7 +16,7 @@ const AdminCalendarPage = () => {
   const handleCreateSlot = (e) => {
     e.preventDefault();
     const startDate = new Date(start);
-    const endDate = new Date(startDate.getTime() + extraMinutes * 60000); 
+    const endDate = new Date(startDate.getTime() + extraMinutes * 60000);
     createSlot(startDate.toISOString(), endDate.toISOString());
     setStart("");
   };
@@ -59,11 +59,13 @@ const AdminCalendarPage = () => {
         </button>
       </form>
 
-      <AppointmentCalendar
-        events={events}
-        onSelectEvent={handleSelectEvent}
-        showBookedBy={true}
-      />
+      <div className={styles.calendarWrapper}>
+        <AppointmentCalendar
+          events={events}
+          onSelectEvent={handleSelectEvent}
+          showBookedBy={true}
+        />
+      </div>
     </div>
   );
 };
