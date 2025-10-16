@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
+
+.container {
+  font-family: 'Playfair Display', serif;
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.title {
+  font-size: 2.2rem;
+  text-align: center;
+  margin-bottom: 30px;
+  color: #2c3e50;
+  text-shadow: 0.05rem 0.05rem 0.1rem rgba(0,0,0,0.1);
+}
+
+.serviceList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.serviceItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  margin-bottom: 15px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.serviceItem:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.serviceName {
+  font-size: 1.2rem;
+  color: #2c3e50;
+}
+
+.servicePrice {
+  font-weight: 700;
+  color: #1ba3fd;
+  font-size: 1.2rem;
+}
+  
+.loading, .error {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 40px;
+  color: #e74c3c;
+}
