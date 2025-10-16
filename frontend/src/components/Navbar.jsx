@@ -25,7 +25,7 @@ const Navbar = () => {
             <Link to="/appointments" className={styles.navLink}>{getText("appointmentsNav")}</Link>
             <Link to="/services" className={styles.navLink}>{getText("services")}</Link>
             <Link to="/adminCalendar" className={styles.navLink}>{getText("adminCalendar")}</Link>
-            <Link to="/adminServices" className={styles.navLink}>{getText("services")}</Link>
+            <Link to="/adminServices" className={styles.navLink}>{getText("manageServices")}</Link>
           </>
         ) : (
           <>
