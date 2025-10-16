@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 import LanguageSelector from "./LanguageSelector";
 import { useTranslation } from "../hooks/useTranslation";
+import styles from "./Navbar.module.css";
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
@@ -15,24 +16,32 @@ const Navbar = () => {
   };
 
   return (
-    <nav style={{ padding: "10px", borderBottom: "1px solid #ccc" }}>
-      <Link to="/" style={{ marginRight: "15px" }}>{getText("home")}</Link>
+    <nav className={styles.navbar}>
+      <div className={styles.navLinks}>
+        <Link to="/" className={styles.navLink}>{getText("home")}</Link>
 
-      {user ? (
-        <>
-          <Link to="/appointments">{getText("appointmentsNav")}</Link>
-          <Link to="/services">{getText("services")}</Link>
-          <Link to="/adminCalendar">{getText("adminCalendar")}</Link>
-          <Link to="/adminServices">{getText("manageServices")}</Link>
-          <span>Hello, {user.name}</span>
-          <button onClick={handleLogout}>{getText("logout")}</button>
-        </>
-      ) : (
-        <>
-          <Link to="/login">{getText("login")}</Link>
-          <Link to="/register">{getText("register")}</Link>
-        </>
+        {user ? (
+          <>
+            <Link to="/appointments" className={styles.navLink}>{getText("appointmentsNav")}</Link>
+            <Link to="/services" className={styles.navLink}>{getText("services")}</Link>
+            <Link to="/adminCalendar" className={styles.navLink}>{getText("adminCalendar")}</Link>
+            <Link to="/adminServices" className={styles.navLink}>{getText("services")}</Link>
+          </>
+        ) : (
+          <>
+            <Link to="/login" className={styles.navLink}>{getText("login")}</Link>
+            <Link to="/register" className={styles.navLink}>{getText("register")}</Link>
+          </>
+        )}
+      </div>
+
+      {user && (
+        <div className={styles.userSection}>
+          <span className={styles.greeting}>Hello, {user.name}</span>
+          <button className={styles.logoutButton} onClick={handleLogout}>{getText("logout")}</button>
+        </div>
       )}
+
       <LanguageSelector />
     </nav>
   );

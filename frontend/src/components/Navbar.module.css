@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
+
+.navbar {
+  font-family: 'Playfair Display', serif;
+  background-color: #f9f9f9;
+  padding: 15px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e0e0e0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.navLinks {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  font-size: larger;
+  text-shadow: 0.1rem 0.1rem 0.25rem black;
+}
+
+.navLink {
+  color: #2c3e50;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease-in-out;
+}
+
+.navLink:hover {
+  color: #1ba3fd;
+  text-shadow: 0.1rem 0.1rem 0.25rem rgb(90, 180, 253);
+}
+
+.userSection {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.logoutButton {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  font-family: 'Playfair Display', serif;
+}
+
+.logoutButton:hover {
+  background-color: #2980b9;
+}
