@@ -11,6 +11,7 @@ import AppointmentsPage from "./pages/AppointmentsPage";
 import AdminPage from "./pages/AdminPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/Navbar";
+import AdminServicesPage from "./pages/AdminServicePage";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
               <Route path="/dashboard" element={<ProtectedRoute> <Dashboard /> </ProtectedRoute>} />
               <Route path="/appointments" element={<ProtectedRoute> <AppointmentsPage /> </ProtectedRoute>} />
               <Route path="/admin" element={<ProtectedRoute> <AdminPage /> </ProtectedRoute>} />
+              <Route path="/adminServices" element={<ProtectedRoute> <AdminServicesPage /> </ProtectedRoute>} />
             </Routes>
           </Router>
           <ToastContainer position="top-right" autoClose={3000} />
