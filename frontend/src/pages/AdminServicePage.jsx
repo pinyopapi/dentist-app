@@ -56,7 +56,7 @@ const AdminServicesPage = () => {
             <ul>
                 {services.map(s => (
                     <li key={s.id}>
-                        {s.name} - {s.price} €
+                        {s.name} - {Number(s.price).toLocaleString("hu-HU")} Ft
                         <button onClick={() => handleEdit(s)}>{getText("edit")}</button>
                         <button onClick={() => handleDelete(s)}>{getText("delete")}</button>
                     </li>
