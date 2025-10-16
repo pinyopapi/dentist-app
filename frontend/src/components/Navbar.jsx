@@ -20,15 +20,16 @@ const Navbar = () => {
 
       {user ? (
         <>
-          <Link to="/appointments" style={{ marginRight: "10px" }}>{getText("appointmentsNav")}</Link>
-          <Link to="/admin" style={{ marginRight: "10px" }}>{getText("admin")}</Link>
-          <Link to="/adminServices" style={{ marginRight: "10px" }}>{getText("services")}</Link>
-          <span style={{ marginRight: "15px" }}>Hello, {user.name}</span>
+          <Link to="/appointments">{getText("appointmentsNav")}</Link>
+          <Link to="/services">{getText("services")}</Link>
+          <Link to="/adminCalendar">{getText("adminCalendar")}</Link>
+          <Link to="/adminServices">{getText("manageServices")}</Link>
+          <span>Hello, {user.name}</span>
           <button onClick={handleLogout}>{getText("logout")}</button>
         </>
       ) : (
         <>
-          <Link to="/login" style={{ marginRight: "10px" }}>{getText("login")}</Link>
+          <Link to="/login">{getText("login")}</Link>
           <Link to="/register">{getText("register")}</Link>
         </>
       )}
