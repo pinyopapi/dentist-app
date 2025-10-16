@@ -1,30 +1,23 @@
-import React from "react";
-import { useTranslation } from "../hooks/useTranslation";
+import styles from './ConfirmModal.module.css';
 
-const ConfirmModal = ({ isOpen, messageKey, onConfirm, onCancel }) => {
-  const { getText } = useTranslation();
-
+const ConfirmModal = ({ isOpen, messageKey, onConfirm, onCancel, getText }) => {
   if (!isOpen) return null;
 
   return (
-    <div style={modalStyle}>
-      <p>{getText(messageKey)}</p>
-      <button onClick={onConfirm} style={{ marginRight: 10 }}>{getText("yes")}</button>
-      <button onClick={onCancel}>{getText("no")}</button>
+    <div className={styles.modalOverlay}>
+      <div className={styles.modalContent}>
+        <p className={styles.modalMessage}>{getText(messageKey)}</p>
+        <div className={styles.modalButtons}>
+          <button className={styles.confirmButton} onClick={onConfirm}>
+            {getText("confirm")}
+          </button>
+          <button className={styles.cancelButton} onClick={onCancel}>
+            {getText("cancel")}
+          </button>
+        </div>
+      </div>
     </div>
   );
-};
-
-const modalStyle = {
-  position: "fixed",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  backgroundColor: "white",
-  padding: 20,
-  zIndex: 1000,
-  border: "1px solid #ccc",
-  borderRadius: 5,
 };
 
 export default ConfirmModal;
