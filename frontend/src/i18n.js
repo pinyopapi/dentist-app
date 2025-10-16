@@ -53,6 +53,30 @@ const translations = {
   logout: { hu: "Kijelentkezés", en: "Logout" },
   admin: { hu: "Admin", en: "Admin" },
   appointmentsNav: { hu: "Időpontok", en: "Appointments" },
+
+  //admin service
+  services: { hu: "Szolgáltatások", en: "Services" },
+  price: { hu: "Ár", en: "Price" },
+  addService: { hu: "Hozzáadás", en: "Add Service" },
+  edit: { hu: "Szerkesztés", en: "Edit" },
+  delete: { hu: "Törlés", en: "Delete" },
+  enterNewName: { hu: "Add meg az új nevet", en: "Enter new name" },
+  enterNewPrice: { hu: "Add meg az új árat", en: "Enter new price" },
+  confirmDeleteService: { hu: "Biztosan törlöd a szolgáltatást?", en: "Are you sure you want to delete this service?" },
+  serviceAdded: { hu: "Szolgáltatás hozzáadva!", en: "Service added!" },
+  serviceUpdated: { hu: "Szolgáltatás frissítve!", en: "Service updated!" },
+  serviceDeleted: { hu: "Szolgáltatás törölve!", en: "Service deleted!" },
+  fillAllFields: { hu: "Tölts ki minden mezőt!", en: "Please fill all fields!" },
+  actionFailed: { hu: "Hiba történt!", en: "Action failed!" },
+
+  //momdals
+  yes: { hu: "Igen", en: "Yes" },
+  no: { hu: "Nem", en: "No" },
+  ok: { hu: "OK", en: "OK" },
+  cancel: { hu: "Mégse", en: "Cancel" },
+  enterServiceName: { hu: "Add meg a szolgáltatás nevét:", en: "Enter the service name:" },
+  enterServicePrice: { hu: "Add meg az árát:", en: "Enter the price:" },
+
 };
 
 export default translations;
