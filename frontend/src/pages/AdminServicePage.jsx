@@ -20,12 +20,14 @@ const AdminServicePage = () => {
     };
 
     const confirmDelete = async () => {
+        if (!selectedService) return;
         await deleteService(selectedService.id);
         setConfirmOpen(false);
     };
 
     const handleAdd = () => {
         setActionType("add");
+        setSelectedService(null);
         setPromptOpen(true);
     };
 
@@ -36,11 +38,16 @@ const AdminServicePage = () => {
     };
 
     const confirmPrompt = async ({ name, price }) => {
+        const numericPrice = Number(price);
+        if (!name || isNaN(numericPrice)) {
+            alert(getText("invalidInput"));
+            return;
+        }
         try {
             if (actionType === "add") {
-                await addService(name, price);
+                await addService(name, numericPrice);
             } else if (actionType === "edit" && selectedService) {
-                await updateService(selectedService.id, name, price);
+                await updateService(selectedService.id, name, numericPrice);
             }
             setPromptOpen(false);
         } catch (err) {
@@ -76,7 +83,7 @@ const AdminServicePage = () => {
             <PromptModal
                 isOpen={promptOpen}
                 defaultName={selectedService?.name || ""}
-                defaultPrice={selectedService?.price || 0}
+                defaultPrice={selectedService?.price ?? 0}
                 getText={getText}
                 messageKey={actionType === "add" ? "enterServiceDetails" : "editServiceDetails"}
                 onConfirm={(data) => confirmPrompt(data)}
