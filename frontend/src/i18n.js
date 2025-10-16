@@ -36,15 +36,16 @@ const translations = {
   deleteSlotError: { hu: "Nem sikerült törölni az időpontot", en: "Failed to delete event" },
   confirmDeleteEvent: { hu: "Biztosan törölni szeretnéd ezt az időpontot?", en: "Are you sure you want to delete this event?" },
 
-  // Admin gombok
+  // Admin 
   createFreeSlot: { hu: "Szabad időpont létrehozása", en: "Create Free Slot" },
+  durationMinutes: { hu: "Időtartam (perc)", en: "Duration (min)" },
 
   // AppointmentCalendar
   freeSlot: { hu: "Szabad időpont", en: "Free Slot" },
   bookedBy: { hu: "Foglalta:", en: "Booked by:" },
   booked: { hu: "Foglalt", en: "Booked" },
 
-  // Google login gomb
+  // Google login btn
   loginWithGoogle: { hu: "Bejelentkezés Google fiókkal", en: "Login with Google to book slots" },
 
   // Navbar
