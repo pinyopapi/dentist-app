@@ -3,6 +3,7 @@ import { useEvents } from "../hooks/useEvents";
 import { useAdminActions } from "../hooks/useAdminActions";
 import { AppointmentCalendar } from "../components/AppointmentCalendar";
 import { useTranslation } from "../hooks/useTranslation";
+import ConfirmModal from "../components/ConfirmModal";
 
 const AdminPage = () => {
   const { events, loading, error, refreshEvents } = useEvents();
@@ -10,21 +11,27 @@ const AdminPage = () => {
   const { getText } = useTranslation();
 
   const [start, setStart] = useState("");
-  const [duration, setDuration] = useState(30);
+  const [end, setEnd] = useState("");
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState(null);
 
   const handleCreateSlot = (e) => {
     e.preventDefault();
-    if (!start) return;
-
-    const startDate = new Date(start);
-    const endDate = new Date(startDate.getTime() + duration * 60000);
-
-    createSlot(startDate.toISOString(), endDate.toISOString());
+    createSlot(start, end);
     setStart("");
+    setEnd("");
   };
 
   const handleSelectEvent = (event) => {
-    deleteEvent(event.id);
+    setSelectedEvent(event);
+    setConfirmOpen(true);
+  };
+
+  const confirmDelete = () => {
+    if (selectedEvent) {
+      deleteEvent(selectedEvent.id);
+      setConfirmOpen(false);
+    }
   };
 
   if (loading) return <p>{getText("loadingCalendar")}</p>;
@@ -43,17 +50,14 @@ const AdminPage = () => {
             onChange={(e) => setStart(e.target.value)}
           />
         </label>
-
         <label style={{ marginLeft: 10 }}>
-          {getText("durationMinutes")}:
+          {getText("end")}:
           <input
-            type="number"
-            value={duration}
-            onChange={(e) => setDuration(Number(e.target.value))}
-            min={1}
+            type="datetime-local"
+            value={end}
+            onChange={(e) => setEnd(e.target.value)}
           />
         </label>
-
         <button type="submit" style={{ marginLeft: 10 }}>
           {getText("createFreeSlot")}
         </button>
@@ -63,6 +67,13 @@ const AdminPage = () => {
         events={events}
         onSelectEvent={handleSelectEvent}
         showBookedBy={true}
+      />
+
+      <ConfirmModal
+        isOpen={confirmOpen}
+        messageKey="confirmDeleteEvent"
+        onConfirm={confirmDelete}
+        onCancel={() => setConfirmOpen(false)}
       />
     </div>
   );
