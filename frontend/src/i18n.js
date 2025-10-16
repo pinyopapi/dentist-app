@@ -52,7 +52,9 @@ const translations = {
   home: { hu: "Főoldal", en: "Home" },
   logout: { hu: "Kijelentkezés", en: "Logout" },
   admin: { hu: "Admin", en: "Admin" },
+  adminCalendar: { hu: "Admin naptár", en: "Admin Calendar" },
   appointmentsNav: { hu: "Időpontok", en: "Appointments" },
+  manageServices: { hu: "Szolgáltatások kezelése", en: "Manage Services" },
 
   //admin service
   services: { hu: "Szolgáltatások", en: "Services" },
