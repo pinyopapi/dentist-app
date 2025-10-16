@@ -35,14 +35,14 @@ const Navbar = () => {
         )}
       </div>
 
-      {user && (
-        <div className={styles.userSection}>
+      <div className={styles.userSection}>
+        {user && (<>
           <span className={styles.greeting}>Hello, {user.name}</span>
           <button className={styles.logoutButton} onClick={handleLogout}>{getText("logout")}</button>
-        </div>
-      )}
+        </>)}
+        <LanguageSelector />
+      </div>
 
-      <LanguageSelector />
     </nav>
   );
 };
