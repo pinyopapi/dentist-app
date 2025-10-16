@@ -75,7 +75,7 @@ const AdminServicesPage = () => {
                 defaultName={selectedService?.name || ""}
                 defaultPrice={selectedService?.price || 0}
                 getText={getText}
-                messageKey={actionType === "add" ? "enterServiceDetails" : "editServiceDetails"}
+                messageKey={actionType === "add" ? "enterServiceName" : "editServiceDetails"}
                 onConfirm={(data) => confirmPrompt(data)}
                 onCancel={() => setPromptOpen(false)}
             />
