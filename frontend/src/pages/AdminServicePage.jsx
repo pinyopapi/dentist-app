@@ -3,8 +3,9 @@ import { useServices } from "../hooks/useServices";
 import ConfirmModal from "../components/ConfirmModal";
 import PromptModal from "../components/PromptModal";
 import { useTranslation } from "../hooks/useTranslation";
+import styles from './AdminServicePage.module.css';
 
-const AdminServicesPage = () => {
+const AdminServicePage = () => {
     const { getText } = useTranslation();
     const { services, loading, addService, updateService, deleteService } = useServices();
 
@@ -50,15 +51,17 @@ const AdminServicesPage = () => {
     if (loading) return <p>{getText("loading")}</p>;
 
     return (
-        <div>
+        <div className={styles.container}>
             <h1>{getText("services")}</h1>
-            <button onClick={handleAdd}>{getText("addService")}</button>
-            <ul>
+            <button className={styles.button} onClick={handleAdd}>{getText("addService")}</button>
+            <ul className={styles.serviceList}>
                 {services.map(s => (
-                    <li key={s.id}>
+                    <li key={s.id} className={styles.serviceItem}>
                         {s.name} - {Number(s.price).toLocaleString("hu-HU")} Ft
-                        <button onClick={() => handleEdit(s)}>{getText("edit")}</button>
-                        <button onClick={() => handleDelete(s)}>{getText("delete")}</button>
+                        <div>
+                          <button onClick={() => handleEdit(s)}>{getText("edit")}</button>
+                          <button onClick={() => handleDelete(s)}>{getText("delete")}</button>
+                        </div>
                     </li>
                 ))}
             </ul>
@@ -75,13 +78,12 @@ const AdminServicesPage = () => {
                 defaultName={selectedService?.name || ""}
                 defaultPrice={selectedService?.price || 0}
                 getText={getText}
-                messageKey={actionType === "add" ? "enterServiceName" : "editServiceDetails"}
+                messageKey={actionType === "add" ? "enterServiceDetails" : "editServiceDetails"}
                 onConfirm={(data) => confirmPrompt(data)}
                 onCancel={() => setPromptOpen(false)}
             />
-
         </div>
     );
 };
 
-export default AdminServicesPage;
+export default AdminServicePage;
