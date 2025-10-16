@@ -8,14 +8,19 @@ const AdminPage = () => {
   const { events, loading, error, refreshEvents } = useEvents();
   const { createSlot, deleteEvent } = useAdminActions(refreshEvents);
   const { getText } = useTranslation();
+
   const [start, setStart] = useState("");
-  const [end, setEnd] = useState("");
+  const [duration, setDuration] = useState(30);
 
   const handleCreateSlot = (e) => {
     e.preventDefault();
-    createSlot(start, end);
+    if (!start) return;
+
+    const startDate = new Date(start);
+    const endDate = new Date(startDate.getTime() + duration * 60000);
+
+    createSlot(startDate.toISOString(), endDate.toISOString());
     setStart("");
-    setEnd("");
   };
 
   const handleSelectEvent = (event) => {
@@ -23,8 +28,7 @@ const AdminPage = () => {
   };
 
   if (loading) return <p>{getText("loadingCalendar")}</p>;
-  if (error) return <p style={{ color: "red" }}>{getText(error)}</p>;
-
+  if (error) return <p style={{ color: "red" }}>{error}</p>;
 
   return (
     <div>
@@ -39,14 +43,17 @@ const AdminPage = () => {
             onChange={(e) => setStart(e.target.value)}
           />
         </label>
+
         <label style={{ marginLeft: 10 }}>
-          {getText("end")}:
+          {getText("durationMinutes")}:
           <input
-            type="datetime-local"
-            value={end}
-            onChange={(e) => setEnd(e.target.value)}
+            type="number"
+            value={duration}
+            onChange={(e) => setDuration(Number(e.target.value))}
+            min={1}
           />
         </label>
+
         <button type="submit" style={{ marginLeft: 10 }}>
           {getText("createFreeSlot")}
         </button>
