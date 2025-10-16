@@ -14,7 +14,14 @@ export const useEvents = () => {
       if (!res.ok) throw new Error("Failed to fetch events");
 
       const data = await res.json();
-      setEvents(data);
+
+      const parsedEvents = data.map(e => ({
+        ...e,
+        start: new Date(e.start),
+        end: new Date(e.end),
+      }));
+
+      setEvents(parsedEvents);
     } catch (err) {
       console.error(err);
       setError("genericError"); 

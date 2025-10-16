@@ -15,12 +15,11 @@ export const AppointmentCalendar = ({ events, onSelectEvent, showBookedBy }) => 
     ...e,
     title: showBookedBy && e.bookedBy
       ? `${getText("bookedBy")} ${e.bookedBy}`
-      : e.bookedBy
-        ? getText("booked")
-        : e.summary === "Free Slot"
-          ? getText("freeSlot")
-          : e.summary,
+      : !e.bookedBy
+        ? getText("freeSlot")
+        : getText("booked"),
   }));
+
 
   return (
     <Calendar
