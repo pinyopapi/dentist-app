@@ -4,6 +4,7 @@ import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { LanguageContext } from "../contexts/LanguageContext";
 import translations from "../i18n";
+import styles from './AppointmentCalendar.module.css';
 
 const localizer = momentLocalizer(moment);
 
@@ -23,6 +24,7 @@ export const AppointmentCalendar = ({ events, onSelectEvent, showBookedBy }) => 
 
   return (
     <Calendar
+      className={styles.calendarContainer}
       localizer={localizer}
       events={formattedEvents}
       startAccessor="start"
