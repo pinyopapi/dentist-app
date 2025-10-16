@@ -12,7 +12,7 @@ const translations = {
 
   // Pages h1
   appointments: { hu: "Időpontok", en: "Appointments" },
-  adminManageCalendar: { hu: "Admin: Naptár kezelése", en: "Admin: Manage Calendar" },
+  adminManageCalendar: { hu: "Naptár kezelése", en: "Manage Calendar" },
   dashboard: { hu: "Dashboard", en: "Dashboard" },
 
   // Loading
@@ -60,6 +60,7 @@ const translations = {
   services: { hu: "Szolgáltatások", en: "Services" },
   price: { hu: "Ár", en: "Price" },
   addService: { hu: "Hozzáadás", en: "Add Service" },
+  serviceName: { hu: "Szolgáltatás név", en: "Service name" },
   edit: { hu: "Szerkesztés", en: "Edit" },
   delete: { hu: "Törlés", en: "Delete" },
   enterNewName: { hu: "Add meg az új nevet", en: "Enter new name" },
@@ -71,12 +72,13 @@ const translations = {
   fillAllFields: { hu: "Tölts ki minden mezőt!", en: "Please fill all fields!" },
   actionFailed: { hu: "Hiba történt!", en: "Action failed!" },
 
-  //momdals
+  confirm: { hu: "Megerősít", en: "Confirm" },
   yes: { hu: "Igen", en: "Yes" },
   no: { hu: "Nem", en: "No" },
   ok: { hu: "OK", en: "OK" },
   cancel: { hu: "Mégse", en: "Cancel" },
   enterServiceName: { hu: "Add meg a szolgáltatás nevét:", en: "Enter the service name:" },
+  editServiceDetails: { hu: "Szolgáltatás név szerkesztése:", en: "Edit the service name:" },
   enterServicePrice: { hu: "Add meg az árát:", en: "Enter the price:" },
 
 };
