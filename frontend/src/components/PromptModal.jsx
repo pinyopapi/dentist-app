@@ -1,41 +1,32 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import styles from './PromptModal.module.css';
 
-const PromptModal = ({ isOpen, defaultName = "", defaultPrice = 0, onConfirm, onCancel, messageKey, getText }) => {
-  const [name, setName] = useState(defaultName);
-  const [price, setPrice] = useState(defaultPrice);
-
-  useEffect(() => {
-    setName(defaultName);
-    setPrice(defaultPrice);
-  }, [defaultName, defaultPrice, isOpen]);
+const PromptModal = ({ isOpen, defaultName, defaultPrice, getText, messageKey, onConfirm, onCancel }) => {
+  const [name, setName] = useState(defaultName || "");
+  const [price, setPrice] = useState(defaultPrice || 0);
 
   if (!isOpen) return null;
 
+  const handleConfirm = () => {
+    onConfirm({ name, price });
+  };
+
   return (
-    <div className="modal-backdrop">
-      <div className="modal">
-        <h2>{getText(messageKey)}</h2>
-        <div style={{ marginBottom: 10 }}>
-          <label>{getText("serviceName")}:</label>
+    <div className={styles.modalOverlay}>
+      <div className={styles.modalContent}>
+        <p className={styles.modalMessage}>{getText(messageKey)}</p>
+        <div className={styles.inputGroup}>
+          <label>{getText("serviceName")}</label>
           <input value={name} onChange={(e) => setName(e.target.value)} />
         </div>
-        <div style={{ marginBottom: 10 }}>
-          <label style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-            {getText("price")}:
-            <input
-              type="text"
-              value={Number(price).toLocaleString("hu-HU")}
-              onChange={(e) =>
-                setPrice(e.target.value.replace(/\s/g, "").replace(/\./g, ""))
-              }
-              required
-              style={{ width: "100px", textAlign: "right" }}
-            />
-            <span>Ft</span>
-          </label>
+        <div className={styles.inputGroup}>
+          <label>{getText("servicePrice")}</label>
+          <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} />
         </div>
-        <button onClick={() => onConfirm({ name, price })}>{getText("confirm")}</button>
-        <button onClick={onCancel}>{getText("cancel")}</button>
+        <div className={styles.modalButtons}>
+          <button className={styles.confirmButton} onClick={handleConfirm}>{getText("confirm")}</button>
+          <button className={styles.cancelButton} onClick={onCancel}>{getText("cancel")}</button>
+        </div>
       </div>
     </div>
   );
