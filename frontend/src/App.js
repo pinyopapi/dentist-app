@@ -8,10 +8,11 @@ import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import Dashboard from "./pages/Dashboard";
 import AppointmentsPage from "./pages/AppointmentsPage";
-import AdminPage from "./pages/AdminPage";
+import AdminCalendarPage from "./pages/AdminCalendarPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/Navbar";
 import AdminServicesPage from "./pages/AdminServicePage";
+import UserServicesPage from "./pages/UserServicesPage";
 
 function App() {
   return (
@@ -25,7 +26,8 @@ function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/dashboard" element={<ProtectedRoute> <Dashboard /> </ProtectedRoute>} />
               <Route path="/appointments" element={<ProtectedRoute> <AppointmentsPage /> </ProtectedRoute>} />
-              <Route path="/admin" element={<ProtectedRoute> <AdminPage /> </ProtectedRoute>} />
+              <Route path="/services" element={<ProtectedRoute> <UserServicesPage /> </ProtectedRoute>} />
+              <Route path="/adminCalendar" element={<ProtectedRoute> <AdminCalendarPage /> </ProtectedRoute>} />
               <Route path="/adminServices" element={<ProtectedRoute> <AdminServicesPage /> </ProtectedRoute>} />
             </Routes>
           </Router>
