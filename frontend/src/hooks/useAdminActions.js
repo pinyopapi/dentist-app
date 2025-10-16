@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { useTranslation } from "../hooks/useTranslation";
 
 export const useAdminActions = (refreshEvents) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const { getText } = useTranslation();
 
   const createSlot = async (start, end) => {
-    if (!start || !end) return toast.info("Please select start and end time");
+    if (!start || !end) return toast.info(getText("createSlotError"));
 
     setLoading(true);
     setError(null);
@@ -24,18 +26,19 @@ export const useAdminActions = (refreshEvents) => {
 
       if (!res.ok) throw new Error("Failed to create slot");
 
-      toast.success("Free slot created!");
+      toast.success(getText("freeSlotCreated"));
       refreshEvents();
     } catch (err) {
       console.error("Error creating slot:", err);
-      setError("Failed to create slot");
+      toast.error(getText("createSlotError"));
+      setError(getText("createSlotError"));
     } finally {
       setLoading(false);
     }
   };
 
   const deleteEvent = async (eventId) => {
-    if (!window.confirm("Are you sure you want to delete this event?")) return;
+    if (!window.confirm(getText("confirmDeleteEvent"))) return;
 
     setLoading(true);
     setError(null);
@@ -49,11 +52,12 @@ export const useAdminActions = (refreshEvents) => {
 
       if (!res.ok) throw new Error("Delete failed");
 
-      toast.error("Event deleted");
+      toast.success(getText("eventDeleted"));
       refreshEvents();
     } catch (err) {
-      toast.error("Error deleting event:", err);
-      setError("Failed to delete event");
+      console.error("Error deleting event:", err);
+      toast.error(getText("deleteSlotError"));
+      setError(getText("deleteSlotError"));
     } finally {
       setLoading(false);
     }

@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { useTranslation } from "../hooks/useTranslation";
 
 export const useBooking = (refreshEvents) => {
   const [bookingError, setBookingError] = useState(null);
+  const { getText } = useTranslation();
 
   const bookEvent = async ({ eventId, bookedBy, userToken, eventStart }) => {
     try {
-      toast.info(`Attempting to book slot: ${new Date(eventStart).toLocaleString()}`);
+      toast.info(`${getText("freeSlot")}: ${new Date(eventStart).toLocaleString()}`);
 
       const res = await fetch("/calendar/book", {
         method: "POST",
@@ -16,14 +18,14 @@ export const useBooking = (refreshEvents) => {
 
       if (!res.ok) throw new Error("Booking failed");
 
-      toast.success("Slot successfully booked!");
+      toast.success(getText("slotBookedSuccess"));
       refreshEvents();
       setBookingError(null);
       return true;
     } catch (err) {
       console.error("Error booking slot:", err);
-      toast.error("Could not book this slot");
-      setBookingError("Could not book this slot");
+      toast.error(getText("bookingFailed"));
+      setBookingError(getText("bookingFailed"));
       return false;
     }
   };

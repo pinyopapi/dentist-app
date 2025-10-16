@@ -3,19 +3,21 @@ import { useBooking } from "../hooks/useBooking";
 import { useGoogleAuth } from "../hooks/useGoogleAuth";
 import { AppointmentCalendar } from "../components/AppointmentCalendar";
 import { toast } from "react-toastify";
+import { useTranslation } from "../hooks/useTranslation";
 
 const AppointmentsPage = () => {
   const { events, loading, error, refreshEvents } = useEvents();
   const { bookEvent } = useBooking(refreshEvents);
   const { googleToken, googleName, error: loginError, login } = useGoogleAuth();
+  const { getText } = useTranslation();
 
   const handleSelectEvent = (event) => {
-    if (!event.title.toLowerCase().includes("free slot")) {
-      toast.error("This slot is already booked!");
+    if (!event.title.includes(getText("freeSlot"))) {
+      toast.error(getText("slotAlreadyBooked"));
       return;
     }
     if (!googleToken) {
-      toast.warning("Please log in with Google first to book a slot.");
+      toast.warning(getText("loginFirstGoogle"));
       return;
     }
 
@@ -27,17 +29,21 @@ const AppointmentsPage = () => {
     });
   };
 
-  if (loading) return <p>Loading calendar...</p>;
+  if (loading) return <p>{getText("loading")}</p>;
   if (error) return <p style={{ color: "red" }}>{error}</p>;
 
   return (
     <div>
-      <h1>Appointments</h1>
+      <h1>{getText("appointments")}</h1>
       {loginError && <p style={{ color: "red" }}>{loginError}</p>}
       {!googleToken && (
-        <button onClick={() => login()}>Login with Google to book slots</button>
+        <button onClick={login}>{getText("loginWithGoogle")}</button>
       )}
-      <AppointmentCalendar events={events} onSelectEvent={handleSelectEvent} showBookedBy={false} />
+      <AppointmentCalendar
+        events={events}
+        onSelectEvent={handleSelectEvent}
+        showBookedBy={false}
+      />
     </div>
   );
 };

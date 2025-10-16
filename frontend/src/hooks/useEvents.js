@@ -1,38 +1,31 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 
 export const useEvents = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const fetchEvents = useCallback(async () => {
+  const refreshEvents = async () => {
     setLoading(true);
+    setError(null);
+
     try {
       const res = await fetch("/calendar/events");
       if (!res.ok) throw new Error("Failed to fetch events");
-      const data = await res.json();
-      setEvents(
-        data.map((e) => ({
-          id: e.id,
-          title: e.bookedBy ? `Booked by ${e.bookedBy}` : e.summary,
-          start: new Date(e.start),
-          end: new Date(e.end),
-          bookedBy: e.bookedBy || null,
-        }))
-      );
 
-      setError(null);
+      const data = await res.json();
+      setEvents(data);
     } catch (err) {
-      console.error("Error fetching events:", err);
-      setError("Failed to load events");
+      console.error(err);
+      setError("genericError"); 
     } finally {
       setLoading(false);
     }
-  }, []);
+  };
 
   useEffect(() => {
-    fetchEvents();
-  }, [fetchEvents]);
+    refreshEvents();
+  }, []);
 
-  return { events, loading, error, refreshEvents: fetchEvents };
+  return { events, loading, error, refreshEvents };
 };

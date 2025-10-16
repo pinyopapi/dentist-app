@@ -2,10 +2,12 @@ import { useState } from "react";
 import { useEvents } from "../hooks/useEvents";
 import { useAdminActions } from "../hooks/useAdminActions";
 import { AppointmentCalendar } from "../components/AppointmentCalendar";
+import { useTranslation } from "../hooks/useTranslation";
 
 const AdminPage = () => {
   const { events, loading, error, refreshEvents } = useEvents();
   const { createSlot, deleteEvent } = useAdminActions(refreshEvents);
+  const { getText } = useTranslation();
   const [start, setStart] = useState("");
   const [end, setEnd] = useState("");
 
@@ -17,25 +19,20 @@ const AdminPage = () => {
   };
 
   const handleSelectEvent = (event) => {
-    const msg = event.bookedBy
-      ? `Booked by: ${event.bookedBy}`
-      : "This is a free slot.";
-
-    if (window.confirm(`${msg}\n\nDelete this event?`)) {
-      deleteEvent(event.id);
-    }
+    deleteEvent(event.id);
   };
 
-  if (loading) return <p>Loading calendar...</p>;
-  if (error) return <p style={{ color: "red" }}>{error}</p>;
+  if (loading) return <p>{getText("loadingCalendar")}</p>;
+  if (error) return <p style={{ color: "red" }}>{getText(error)}</p>;
+
 
   return (
     <div>
-      <h1>Admin: Manage Calendar</h1>
+      <h1>{getText("adminManageCalendar")}</h1>
 
       <form onSubmit={handleCreateSlot} style={{ marginBottom: 20 }}>
         <label>
-          Start:
+          {getText("start")}:
           <input
             type="datetime-local"
             value={start}
@@ -43,7 +40,7 @@ const AdminPage = () => {
           />
         </label>
         <label style={{ marginLeft: 10 }}>
-          End:
+          {getText("end")}:
           <input
             type="datetime-local"
             value={end}
@@ -51,11 +48,15 @@ const AdminPage = () => {
           />
         </label>
         <button type="submit" style={{ marginLeft: 10 }}>
-          Create Free Slot
+          {getText("createFreeSlot")}
         </button>
       </form>
 
-      <AppointmentCalendar events={events} onSelectEvent={handleSelectEvent} showBookedBy={true}/>
+      <AppointmentCalendar
+        events={events}
+        onSelectEvent={handleSelectEvent}
+        showBookedBy={true}
+      />
     </div>
   );
 };
