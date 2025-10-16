@@ -13,7 +13,17 @@ const translations = {
   // Pages h1
   appointments: { hu: "Időpontok", en: "Appointments" },
   adminManageCalendar: { hu: "Admin: Naptár kezelése", en: "Admin: Manage Calendar" },
-  dashboard: { hu: "Irányítópult", en: "Dashboard" },
+  dashboard: { hu: "Dashboard", en: "Dashboard" },
+
+  // Loading
+  loading: { hu: "Betöltés...", en: "Loading..." },
+  loadingCalendar: { hu: "Naptár betöltése...", en: "Loading calendar..." },
+
+  genericError: { hu: "Hiba történt", en: "An error occurred" },
+
+  // Labels
+  start: { hu: "Kezdés", en: "Start" },
+  end: { hu: "Befejezés", en: "End" },
 
   // Toast & Alerts
   slotAlreadyBooked: { hu: "Ez az időpont már foglalt!", en: "This slot is already booked!" },
@@ -32,9 +42,10 @@ const translations = {
   // AppointmentCalendar
   freeSlot: { hu: "Szabad időpont", en: "Free Slot" },
   bookedBy: { hu: "Foglalta:", en: "Booked by:" },
+  booked: { hu: "Foglalt", en: "Booked" },
 
   // Google login gomb
-  loginWithGoogle: { hu: "Jelentkezés Google fiókkal", en: "Login with Google to book slots" },
+  loginWithGoogle: { hu: "Bejelentkezés Google fiókkal", en: "Login with Google to book slots" },
 
   // Navbar
   home: { hu: "Főoldal", en: "Home" },
