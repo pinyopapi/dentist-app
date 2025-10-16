@@ -3,6 +3,7 @@ import { useEvents } from "../hooks/useEvents";
 import { useAdminActions } from "../hooks/useAdminActions";
 import { AppointmentCalendar } from "../components/AppointmentCalendar";
 import { useTranslation } from "../hooks/useTranslation";
+import styles from './AdminCalendarPage.module.css';
 
 const AdminCalendarPage = () => {
   const { events, loading, error, refreshEvents } = useEvents();
@@ -28,28 +29,32 @@ const AdminCalendarPage = () => {
   if (error) return <p style={{ color: "red" }}>{error}</p>;
 
   return (
-    <div>
-      <h1>{getText("adminManageCalendar")}</h1>
+    <div className={styles.pageContainer}>
+      <h1 className={styles.pageTitle}>{getText("adminManageCalendar")}</h1>
 
-      <form onSubmit={handleCreateSlot} style={{ marginBottom: 20 }}>
-        <label>
-          {getText("start")}:
+      <form onSubmit={handleCreateSlot} className={styles.formContainer}>
+        <div className={styles.labelGroup}>
+          <label>{getText("start")}:</label>
           <input
             type="datetime-local"
             value={start}
             onChange={(e) => setStart(e.target.value)}
+            className={styles.inputField}
           />
-        </label>
-        <label>
-          {getText("durationMinutes")}:
+        </div>
+
+        <div className={styles.labelGroup}>
+          <label>{getText("durationMinutes")}:</label>
           <input
             type="number"
             value={extraMinutes}
             onChange={(e) => setExtraMinutes(e.target.value)}
             min="1"
+            className={styles.inputField}
           />
-        </label>
-        <button type="submit">
+        </div>
+
+        <button type="submit" className={styles.submitButton}>
           {getText("createFreeSlot")}
         </button>
       </form>
