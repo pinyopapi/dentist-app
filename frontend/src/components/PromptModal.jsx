@@ -20,12 +20,19 @@ const PromptModal = ({ isOpen, defaultName = "", defaultPrice = 0, onConfirm, on
           <input value={name} onChange={(e) => setName(e.target.value)} />
         </div>
         <div style={{ marginBottom: 10 }}>
-          <label>{getText("servicePrice")}:</label>
-          <input
-            type="number"
-            value={price}
-            onChange={(e) => setPrice(parseFloat(e.target.value))}
-          />
+          <label style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+            {getText("price")}:
+            <input
+              type="text"
+              value={Number(price).toLocaleString("hu-HU")}
+              onChange={(e) =>
+                setPrice(e.target.value.replace(/\s/g, "").replace(/\./g, ""))
+              }
+              required
+              style={{ width: "100px", textAlign: "right" }}
+            />
+            <span>Ft</span>
+          </label>
         </div>
         <button onClick={() => onConfirm({ name, price })}>{getText("confirm")}</button>
         <button onClick={onCancel}>{getText("cancel")}</button>
