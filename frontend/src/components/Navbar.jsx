@@ -22,6 +22,7 @@ const Navbar = () => {
         <>
           <Link to="/appointments" style={{ marginRight: "10px" }}>{getText("appointmentsNav")}</Link>
           <Link to="/admin" style={{ marginRight: "10px" }}>{getText("admin")}</Link>
+          <Link to="/adminServices" style={{ marginRight: "10px" }}>{getText("services")}</Link>
           <span style={{ marginRight: "15px" }}>Hello, {user.name}</span>
           <button onClick={handleLogout}>{getText("logout")}</button>
         </>
