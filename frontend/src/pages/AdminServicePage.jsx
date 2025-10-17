@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useServices } from "../hooks/useServices";
+import { useTranslation } from "../hooks/useTranslation";
 import ConfirmModal from "../components/ConfirmModal";
 import PromptModal from "../components/PromptModal";
-import { useTranslation } from "../hooks/useTranslation";
 import styles from './AdminServicePage.module.css';
 
 const AdminServicePage = () => {
@@ -66,8 +66,8 @@ const AdminServicePage = () => {
                     <li key={s.id} className={styles.serviceItem}>
                         {s.name} - {Number(s.price).toLocaleString("hu-HU")} Ft
                         <div>
-                          <button onClick={() => handleEdit(s)}>{getText("edit")}</button>
-                          <button onClick={() => handleDelete(s)}>{getText("delete")}</button>
+                            <button onClick={() => handleEdit(s)}>{getText("edit")}</button>
+                            <button onClick={() => handleDelete(s)}>{getText("delete")}</button>
                         </div>
                     </li>
                 ))}
@@ -75,16 +75,16 @@ const AdminServicePage = () => {
 
             <ConfirmModal
                 isOpen={confirmOpen}
-                messageKey="confirmDeleteService"
+                messageKey={`${getText("confirmDeleteService")}`}
                 onConfirm={confirmDelete}
                 onCancel={() => setConfirmOpen(false)}
             />
 
+
             <PromptModal
                 isOpen={promptOpen}
                 defaultName={selectedService?.name || ""}
-                defaultPrice={selectedService?.price ?? 0}
-                getText={getText}
+                defaultPrice={selectedService?.price ? Number(selectedService.price) : 0}
                 messageKey={actionType === "add" ? "enterServiceDetails" : "editServiceDetails"}
                 onConfirm={(data) => confirmPrompt(data)}
                 onCancel={() => setPromptOpen(false)}
