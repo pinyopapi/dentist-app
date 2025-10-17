@@ -78,10 +78,9 @@ const AdminCalendarPage = () => {
 
       <ConfirmModal
         isOpen={confirmOpen}
-        messageKey={getText("confirmDeleteEvent")}
+        messageKey="confirmDeleteEvent"
         onConfirm={confirmDelete}
         onCancel={() => setConfirmOpen(false)}
-        getText={getText}
       />
     </div>
   );
