@@ -1,0 +1,47 @@
+.googleWrapper {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  width: 100%;
+}
+
+.googleButton {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: #fff;
+  color: #444;
+  font-weight: 600;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 12px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.2s;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  width: 100%; /* teljes szélesség mobilon */
+  max-width: 360px; /* desktopon ne legyen túl széles */
+}
+
+.googleButton:hover {
+  background-color: #f7f7f7;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.googleIcon {
+  width: 20px;
+  height: 20px;
+}
+
+@media (max-width: 480px) {
+  .googleButton {
+    font-size: 14px;
+    padding: 10px 16px;
+    gap: 8px;
+  }
+
+  .googleIcon {
+    width: 18px;
+    height: 18px;
+  }
+}
