@@ -71,6 +71,8 @@ const translations = {
   serviceDeleted: { hu: "Szolgáltatás törölve!", en: "Service deleted!" },
   fillAllFields: { hu: "Tölts ki minden mezőt!", en: "Please fill all fields!" },
   actionFailed: { hu: "Hiba történt!", en: "Action failed!" },
+  nameRequired: { hu: "A név nem lehet üres!", en: "Name can not be empty!" },
+  validPriceRequired: { hu: "Nem megfelelő szám!", en: "Invalid number!" },
 
   confirm: { hu: "Megerősít", en: "Confirm" },
   yes: { hu: "Igen", en: "Yes" },
