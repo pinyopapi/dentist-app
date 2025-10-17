@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 import LanguageSelector from "./LanguageSelector";
@@ -9,15 +9,24 @@ const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
   const { getText } = useTranslation();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
     navigate("/login");
   };
 
+  const toggleMenu = () => setMenuOpen(!menuOpen);
+
   return (
     <nav className={styles.navbar}>
-      <div className={styles.navLinks}>
+      <div className={styles.hamburger} onClick={toggleMenu}>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+
+      <div className={`${styles.navLinks} ${menuOpen ? styles.open : ""}`}>
         <Link to="/" className={styles.navLink}>{getText("home")}</Link>
 
         {user ? (
@@ -36,13 +45,14 @@ const Navbar = () => {
       </div>
 
       <div className={styles.userSection}>
-        {user && (<>
-          <span className={styles.greeting}>Hello, {user.name}</span>
-          <button className={styles.logoutButton} onClick={handleLogout}>{getText("logout")}</button>
-        </>)}
+        {user && (
+          <>
+            <span className={styles.greeting}>Hello, {user.name}</span>
+            <button className={styles.logoutButton} onClick={handleLogout}>{getText("logout")}</button>
+          </>
+        )}
         <LanguageSelector />
       </div>
-
     </nav>
   );
 };

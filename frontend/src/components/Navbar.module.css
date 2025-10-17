@@ -3,20 +3,21 @@
 .navbar {
   font-family: 'Playfair Display', serif;
   background-color: #f9f9f9;
-  padding: 15px 30px;
+  padding: 10px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid #e0e0e0;
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  position: relative;
 }
 
 .navLinks {
   display: flex;
   gap: 20px;
   align-items: center;
-  font-size: larger;
-  text-shadow: 0.1rem 0.1rem 0.25rem black;
+  font-size: 1rem;
+  text-shadow: 0.1rem 0.1rem 0.25rem rgba(0,0,0,0.1);
 }
 
 .navLink {
@@ -28,7 +29,7 @@
 
 .navLink:hover {
   color: #1ba3fd;
-  text-shadow: 0.1rem 0.1rem 0.25rem rgb(90, 180, 253);
+  text-shadow: 0.1rem 0.1rem 0.25rem rgba(27, 163, 253,0.7);
 }
 
 .userSection {
@@ -52,4 +53,41 @@
 
 .logoutButton:hover {
   background-color: #2980b9;
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.hamburger div {
+  width: 25px;
+  height: 3px;
+  background-color: #2c3e50;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .navLinks {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    background-color: #f9f9f9;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 20px;
+    display: none;
+  }
+
+  .navLinks.open {
+    display: flex;
+  }
+
+  .hamburger {
+    display: flex;
+  }
 }
