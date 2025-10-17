@@ -1,6 +1,8 @@
+import { useTranslation } from "../hooks/useTranslation";
 import styles from './ConfirmModal.module.css';
 
-const ConfirmModal = ({ isOpen, messageKey, onConfirm, onCancel, getText }) => {
+const ConfirmModal = ({ isOpen, messageKey, onConfirm, onCancel }) => {
+  const { getText } = useTranslation();
   if (!isOpen) return null;
 
   return (

@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "../hooks/useTranslation";
 import styles from './PromptModal.module.css';
 
-const PromptModal = ({ isOpen, defaultName, defaultPrice, getText, messageKey, onConfirm, onCancel }) => {
+const PromptModal = ({ isOpen, defaultName, defaultPrice, messageKey, onConfirm, onCancel }) => {
   const [name, setName] = useState(defaultName || "");
   const [price, setPrice] = useState(defaultPrice || 0);
+  const { getText } = useTranslation();
 
   useEffect(() => {
     setName(defaultName || "");
