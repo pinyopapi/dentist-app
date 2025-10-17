@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import { useTranslation } from "../hooks/useTranslation";
 import styles from './PromptModal.module.css';
 
@@ -15,8 +16,14 @@ const PromptModal = ({ isOpen, defaultName, defaultPrice, messageKey, onConfirm,
   if (!isOpen) return null;
 
   const handleConfirm = () => {
-    if (!name) return alert(getText("nameRequired"));
-    if (isNaN(price) || price <= 0) return alert(getText("validPriceRequired"));
+    if (!name) {
+      toast.error(getText("nameRequired"));
+      return;
+    }
+    if (isNaN(price) || price <= 0) {
+      toast.error(getText("validPriceRequired"));
+      return;
+    }
     onConfirm({ name, price: Number(price) });
   };
 
@@ -30,11 +37,19 @@ const PromptModal = ({ isOpen, defaultName, defaultPrice, messageKey, onConfirm,
         </div>
         <div className={styles.inputGroup}>
           <label>{getText("servicePrice")}</label>
-          <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} />
+          <input
+            type="number"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+          />
         </div>
         <div className={styles.modalButtons}>
-          <button className={styles.confirmButton} onClick={handleConfirm}>{getText("confirm")}</button>
-          <button className={styles.cancelButton} onClick={onCancel}>{getText("cancel")}</button>
+          <button className={styles.confirmButton} onClick={handleConfirm}>
+            {getText("confirm")}
+          </button>
+          <button className={styles.cancelButton} onClick={onCancel}>
+            {getText("cancel")}
+          </button>
         </div>
       </div>
     </div>
