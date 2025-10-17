@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Dancing+Script:wght@400;700&display=swap');
 
 .navbar {
   font-family: 'Playfair Display', serif;
@@ -10,6 +11,18 @@
   border-bottom: 1px solid #e0e0e0;
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
   position: relative;
+  z-index: 10;
+  transition: all 0.3s ease;
+}
+
+.logo a {
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2c3e50;
+  text-decoration:underline;
+  text-shadow: 0 0 0.4rem rgb(0, 162, 255);
+  transition: all 0.3s ease;
 }
 
 .navLinks {
@@ -18,18 +31,30 @@
   align-items: center;
   font-size: 1rem;
   text-shadow: 0.1rem 0.1rem 0.25rem rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
 }
 
 .navLink {
   color: #2c3e50;
   text-decoration: none;
   font-weight: 500;
-  transition: color 0.2s ease-in-out;
+  position: relative;
 }
 
-.navLink:hover {
-  color: #1ba3fd;
-  text-shadow: 0.1rem 0.1rem 0.25rem rgba(27, 163, 253,0.7);
+.navLink::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 2px;
+  background: #1ba3fd;
+  transition: width 0.3s;
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+}
+
+.navLink:hover::after {
+  width: 100%;
 }
 
 .userSection {
@@ -38,6 +63,7 @@
   gap: 10px;
   color: #2c3e50;
   font-weight: 500;
+  order: 1; 
 }
 
 .logoutButton {
@@ -48,7 +74,6 @@
   border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
-  font-family: 'Playfair Display', serif;
 }
 
 .logoutButton:hover {
@@ -60,6 +85,8 @@
   flex-direction: column;
   gap: 4px;
   cursor: pointer;
+  z-index: 20;
+  order: 2; 
 }
 
 .hamburger div {
@@ -68,6 +95,16 @@
   background-color: #2c3e50;
   border-radius: 2px;
   transition: all 0.3s ease;
+}
+
+.hamburger.open div:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+.hamburger.open div:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.open div:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
 }
 
 @media (max-width: 768px) {
@@ -81,13 +118,33 @@
     gap: 10px;
     padding: 10px 20px;
     display: none;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.3s ease;
+    z-index: 15;
   }
 
   .navLinks.open {
     display: flex;
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .hamburger {
     display: flex;
+  }
+
+  .logo a {
+    font-size: 0;
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    background-image: url('../../public/dr-tooth.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  .userSection{
+    justify-self: end;
   }
 }

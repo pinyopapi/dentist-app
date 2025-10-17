@@ -20,6 +20,10 @@ const Navbar = () => {
 
   return (
     <nav className={styles.navbar}>
+      <div className={styles.logo}>
+        <Link to="/">Dr. Hanzsér fogorvos</Link>
+      </div>
+
       <div className={styles.hamburger} onClick={toggleMenu}>
         <div></div>
         <div></div>
@@ -33,8 +37,12 @@ const Navbar = () => {
           <>
             <Link to="/appointments" className={styles.navLink}>{getText("appointmentsNav")}</Link>
             <Link to="/services" className={styles.navLink}>{getText("services")}</Link>
-            <Link to="/adminCalendar" className={styles.navLink}>{getText("adminCalendar")}</Link>
-            <Link to="/adminServices" className={styles.navLink}>{getText("manageServices")}</Link>
+            {user.isAdmin && (
+              <>
+                <Link to="/adminCalendar" className={styles.navLink}>{getText("adminCalendar")}</Link>
+                <Link to="/adminServices" className={styles.navLink}>{getText("manageServices")}</Link>
+              </>
+            )}
           </>
         ) : (
           <>
@@ -48,10 +56,12 @@ const Navbar = () => {
         {user && (
           <>
             <span className={styles.greeting}>Hello, {user.name}</span>
-            <button className={styles.logoutButton} onClick={handleLogout}>{getText("logout")}</button>
+            <button className={styles.logoutButton} onClick={handleLogout}>
+              {getText("logout")}
+            </button>
           </>
         )}
-        <LanguageSelector />
+        <LanguageSelector showFlags />
       </div>
     </nav>
   );
