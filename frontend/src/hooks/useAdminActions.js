@@ -38,8 +38,6 @@ export const useAdminActions = (refreshEvents) => {
   };
 
   const deleteEvent = async (eventId) => {
-    if (!window.confirm(getText("confirmDeleteEvent"))) return;
-
     setLoading(true);
     setError(null);
 

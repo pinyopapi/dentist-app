@@ -3,6 +3,7 @@ import { useEvents } from "../hooks/useEvents";
 import { useAdminActions } from "../hooks/useAdminActions";
 import { AppointmentCalendar } from "../components/AppointmentCalendar";
 import { useTranslation } from "../hooks/useTranslation";
+import ConfirmModal from "../components/ConfirmModal";
 import styles from './AdminCalendarPage.module.css';
 
 const AdminCalendarPage = () => {
@@ -12,6 +13,8 @@ const AdminCalendarPage = () => {
 
   const [start, setStart] = useState("");
   const [extraMinutes, setExtraMinutes] = useState(30);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [selectedEventId, setSelectedEventId] = useState(null);
 
   const handleCreateSlot = (e) => {
     e.preventDefault();
@@ -22,7 +25,13 @@ const AdminCalendarPage = () => {
   };
 
   const handleSelectEvent = (event) => {
-    deleteEvent(event.id);
+    setSelectedEventId(event.id);
+    setConfirmOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (selectedEventId) await deleteEvent(selectedEventId);
+    setConfirmOpen(false);
   };
 
   if (loading) return <p>{getText("loadingCalendar")}</p>;
@@ -66,6 +75,14 @@ const AdminCalendarPage = () => {
           showBookedBy={true}
         />
       </div>
+
+      <ConfirmModal
+        isOpen={confirmOpen}
+        messageKey={getText("confirmDeleteEvent")}
+        onConfirm={confirmDelete}
+        onCancel={() => setConfirmOpen(false)}
+        getText={getText}
+      />
     </div>
   );
 };
