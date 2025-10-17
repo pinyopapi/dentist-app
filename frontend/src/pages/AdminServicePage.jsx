@@ -59,7 +59,7 @@ const AdminServicePage = () => {
 
     return (
         <div className={styles.container}>
-            <h1>{getText("services")}</h1>
+            <h1 className={styles.title}>{getText("services")}</h1>
             <button className={styles.button} onClick={handleAdd}>{getText("addService")}</button>
             <ul className={styles.serviceList}>
                 {services.map(s => (
