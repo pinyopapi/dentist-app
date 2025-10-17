@@ -48,7 +48,7 @@ const AppointmentsPage = () => {
 
   return (
     <div>
-      <h1>{getText("appointments")}</h1>
+      <h1 className={styles.title}>{getText("appointments")}</h1>
       {loginError && <p style={{ color: "red" }}>{loginError}</p>}
       {!googleToken && (
         <div className={styles.googleWrapper}>

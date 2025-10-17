@@ -18,19 +18,27 @@
   cursor: pointer;
   font-size: 16px;
   transition: all 0.2s;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  width: 100%; /* teljes szélesség mobilon */
-  max-width: 360px; /* desktopon ne legyen túl széles */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 360px;
 }
 
 .googleButton:hover {
   background-color: #f7f7f7;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .googleIcon {
   width: 20px;
   height: 20px;
+}
+
+.title {
+  font-size: 2.2rem;
+  text-align: center;
+  margin-bottom: 30px;
+  color: #2c3e50;
+  text-shadow: 0.05rem 0.05rem 0.1rem rgba(0, 0, 0, 0.1);
 }
 
 @media (max-width: 480px) {
