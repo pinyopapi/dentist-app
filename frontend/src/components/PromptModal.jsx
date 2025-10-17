@@ -1,14 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from './PromptModal.module.css';
 
 const PromptModal = ({ isOpen, defaultName, defaultPrice, getText, messageKey, onConfirm, onCancel }) => {
   const [name, setName] = useState(defaultName || "");
   const [price, setPrice] = useState(defaultPrice || 0);
 
+  useEffect(() => {
+    setName(defaultName || "");
+    setPrice(defaultPrice || 0);
+  }, [defaultName, defaultPrice]);
+
   if (!isOpen) return null;
 
   const handleConfirm = () => {
-    onConfirm({ name, price });
+    if (!name) return alert(getText("nameRequired"));
+    if (isNaN(price) || price <= 0) return alert(getText("validPriceRequired"));
+    onConfirm({ name, price: Number(price) });
   };
 
   return (
