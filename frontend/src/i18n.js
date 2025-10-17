@@ -73,8 +73,9 @@ const translations = {
   actionFailed: { hu: "Hiba történt!", en: "Action failed!" },
   nameRequired: { hu: "A név nem lehet üres!", en: "Name can not be empty!" },
   validPriceRequired: { hu: "Nem megfelelő szám!", en: "Invalid number!" },
-
+  
   confirm: { hu: "Megerősít", en: "Confirm" },
+  confirmBooking: { hu: "Biztosan le szeretnéd foglalni ezt az időpontot?", en: "Are you sure you want to book this slot?" },
   yes: { hu: "Igen", en: "Yes" },
   no: { hu: "Nem", en: "No" },
   ok: { hu: "OK", en: "OK" },
