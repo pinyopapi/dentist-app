@@ -9,10 +9,10 @@ import LoginPage from "./pages/LoginPage";
 import Dashboard from "./pages/Dashboard";
 import AppointmentsPage from "./pages/AppointmentsPage";
 import AdminCalendarPage from "./pages/AdminCalendarPage";
-import ProtectedRoute from "./components/ProtectedRoute";
-import Navbar from "./components/Navbar";
 import AdminServicesPage from "./pages/AdminServicePage";
 import UserServicesPage from "./pages/UserServicesPage";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
@@ -24,11 +24,13 @@ function App() {
             <Routes>
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/login" element={<LoginPage />} />
+
               <Route path="/dashboard" element={<ProtectedRoute> <Dashboard /> </ProtectedRoute>} />
-              <Route path="/appointments" element={<ProtectedRoute> <AppointmentsPage /> </ProtectedRoute>} />
+              <Route path="/appointments" element={<ProtectedRoute><AppointmentsPage /></ProtectedRoute>} />
               <Route path="/services" element={<ProtectedRoute> <UserServicesPage /> </ProtectedRoute>} />
-              <Route path="/adminCalendar" element={<ProtectedRoute> <AdminCalendarPage /> </ProtectedRoute>} />
-              <Route path="/adminServices" element={<ProtectedRoute> <AdminServicesPage /> </ProtectedRoute>} />
+
+              <Route path="/adminCalendar" element={<ProtectedRoute adminOnly={true}><AdminCalendarPage /></ProtectedRoute> } />
+              <Route path="/adminServices" element={<ProtectedRoute adminOnly={true}><AdminServicesPage /></ProtectedRoute>} />
             </Routes>
           </Router>
           <ToastContainer position="top-right" autoClose={3000} />

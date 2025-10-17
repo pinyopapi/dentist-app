@@ -1,15 +1,21 @@
 import { useContext } from "react";
-import { AuthContext } from "../contexts/AuthContext";
 import { Navigate } from "react-router-dom";
-import { useTranslation } from "../hooks/useTranslation";
+import { AuthContext } from "../contexts/AuthContext";
 
-const ProtectedRoute = ({ children }) => {
+const ProtectedRoute = ({ children, adminOnly = false }) => {
   const { user, loading } = useContext(AuthContext);
-  const { getText } = useTranslation();
 
-  if (loading) return <p>{getText("loading")}</p>;
+  if (loading) return <p>Loading...</p>;
 
-  return user ? children : <Navigate to="/login" />;
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (adminOnly && !user.isAdmin) {
+    return <Navigate to="/" replace />;
+  }
+
+  return children;
 };
 
 export default ProtectedRoute;
