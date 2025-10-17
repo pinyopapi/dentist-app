@@ -47,7 +47,7 @@ const AppointmentsPage = () => {
   if (error) return <p style={{ color: "red" }}>{error}</p>;
 
   return (
-    <div>
+    <div className={styles.pageContainer}>
       <h1 className={styles.title}>{getText("appointments")}</h1>
       {loginError && <p style={{ color: "red" }}>{loginError}</p>}
       {!googleToken && (

@@ -1,7 +1,7 @@
 .pageContainer {
   font-family: 'Playfair Display', serif;
   padding: 30px;
-  background-color: #fdfdfd;
+  background: linear-gradient(135deg, #f3e5f5, #e1bee7);
   min-height: 100vh;
 }
 

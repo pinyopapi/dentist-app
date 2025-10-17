@@ -1,6 +1,7 @@
 .container {
   max-width: 900px;
   margin: 0 auto;
+  background: linear-gradient(135deg, #fff3e0, #ffe0b2);
   padding: 20px;
   font-family: Arial, sans-serif;
 }

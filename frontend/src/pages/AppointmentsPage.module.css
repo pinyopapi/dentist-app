@@ -1,3 +1,9 @@
+.pageContainer {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e0f7fa, #a5f4ff);
+  padding: 20px;
+}
+
 .googleWrapper {
   display: flex;
   justify-content: center;

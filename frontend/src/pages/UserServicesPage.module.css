@@ -4,7 +4,8 @@
   font-family: 'Playfair Display', serif;
   max-width: 800px;
   margin: 40px auto;
-  padding: 0 20px;
+  padding: 5px 20px 10px 20px;
+  background: linear-gradient(135deg, #e0f7fa, #a5c4ff);
 }
 
 .title {
