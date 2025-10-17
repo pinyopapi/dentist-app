@@ -1,0 +1,29 @@
+.flagContainer {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.flagButton {
+  background: transparent;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  padding: 2px;
+  cursor: pointer;
+  transition: border 0.2s ease-in-out, transform 0.2s;
+}
+
+.flagButton:hover {
+  border: 2px solid #1ba3fd;
+  transform: scale(1.1);
+}
+
+.flagButton.active {
+  border: 2px solid #1ba3fd;
+}
+
+.flagIcon {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
