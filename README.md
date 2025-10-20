@@ -118,7 +118,7 @@ To enable Google Calendar synchronization:
      http://localhost:3000
      ```
      or your deployed URL if hosted online.
-5. Download the `credentials.json` file and place it in your project’s `/config` folder.
+5. Download the `credentials.json` file and place it in your project’s `/backend` folder.
 6. Run the authorization script (or, on first start of the app, you will be prompted to sign in).
 7. Once authorized, your app can **create, view, and sync** calendar events automatically with your Google account.
 
