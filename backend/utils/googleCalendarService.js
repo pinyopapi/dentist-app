@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const KEYFILEPATH = path.join(process.cwd(), "dentist-app-475011-e7cc7397f9ab.json");
+const KEYFILEPATH = path.join(process.cwd(), "credentials.json");
 const SCOPES = ["https://www.googleapis.com/auth/calendar"];
 
 const auth = new google.auth.GoogleAuth({
