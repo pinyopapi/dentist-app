@@ -32,8 +32,6 @@ User view
 ![Screenshot](docs/screenshot2.png)
 ![Screenshot](docs/screenshot3.png)
 
-*(Place a screenshot of your app in the `docs/` folder and name it `screenshot.png`.)*
-
 ---
 
 ## 🛠️ Built With / Tech Stack
