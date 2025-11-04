@@ -34,23 +34,27 @@ User view
 
 ---
 
-## 🛠️ Built With / Tech Stack
+## 🛠️ Built With / Tech Stack  
 
-**Frontend:**
+### 🧩 Frontend  
+[![React](https://img.shields.io/badge/React-18-blue?logo=react&logoColor=white)](https://react.dev/)  
+[![React Router](https://img.shields.io/badge/React_Router_DOM-v6-red?logo=reactrouter&logoColor=white)](https://reactrouter.com/)  
+[![React Toastify](https://img.shields.io/badge/React_Toastify-notifications-orange)](https://fkhadra.github.io/react-toastify/introduction)  
+[![CSS Modules](https://img.shields.io/badge/CSS_Modules-styling-blueviolet)](https://github.com/css-modules/css-modules)  
+[![Google OAuth](https://img.shields.io/badge/Google_OAuth-authentication-lightgrey?logo=google)](https://developers.google.com/identity/protocols/oauth2)  
 
-* React 18
-* React Router DOM
-* React Toastify
-* CSS Modules
-* Google OAuth
+---
 
-**Backend:**
+### ⚙️ Backend  
+[![Node.js](https://img.shields.io/badge/Node.js-runtime-green?logo=node.js&logoColor=white)](https://nodejs.org/)  
+[![Express.js](https://img.shields.io/badge/Express.js-framework-black?logo=express&logoColor=white)](https://expressjs.com/)  
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-database-blue?logo=postgresql&logoColor=white)](https://www.postgresql.org/)  
+[![pg](https://img.shields.io/badge/pg-node_module-lightblue)](https://node-postgres.com/)  
+[![JWT](https://img.shields.io/badge/JWT-authentication-purple?logo=jsonwebtokens&logoColor=white)](https://jwt.io/)  
+[![Bcrypt](https://img.shields.io/badge/Bcrypt-password_hashing-yellow)](https://github.com/kelektiv/node.bcrypt.js)  
+[![CORS](https://img.shields.io/badge/CORS-security-orange)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)  
+[![dotenv](https://img.shields.io/badge/dotenv-env_variables-green)](https://github.com/motdotla/dotenv)  
 
-* Node.js / Express.js
-* PostgreSQL (with `pg` module)
-* JWT Authentication
-* Bcrypt for password hashing
-* CORS, dotenv
 
 ---
 
